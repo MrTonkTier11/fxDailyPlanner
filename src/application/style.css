@@ -1,0 +1,28 @@
+.anchor-pane{
+	-fx-background-color: #444444;
+}
+.vbox{
+	-fx-background-color: #707070;
+	-fx-background-radius: 20;
+}
+.pane{
+	-fx-background-color: #707070;
+	-fx-background-radius: 20;
+}
+.itsura-ng-buttonz{
+	-fx-background-color: #a2a2a2;
+	-fx-border-radius: 20;
+	-fx-background-radius: 20;
+}
+.hbox{
+	-fx-background-color: #707070;
+	-fx-background-radius: 20;
+}
+.icons-bilog{
+	-fx-background-color: #a2a2a2;
+	-fx-border-radius: 20;
+	-fx-background-radius: 80;
+}
+.color-specific-shade{
+	-fx-background-color: #707070;
+}
