@@ -68,13 +68,13 @@
          <children>
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="home/all" />
             <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="prio" />
-            <Button contentDisplay="CENTER" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="notice" />
+            <Button contentDisplay="CENTER" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="98.0" styleClass="icons-bilog" text="notice" />
             <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
                <image>
                   <Image url="@image-removebg-preview.png" />
                </image>
             </ImageView>
-            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="first" />
+            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="58.0" prefWidth="274.0" styleClass="icons-bilog" text="first" />
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="158.0" mnemonicParsing="false" onAction="#switchToSchoolSchedule" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="second" />
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="227.0" mnemonicParsing="false" onAction="#switchToWorkSchedule" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="third" />
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="307.0" styleClass="icons-bilog" text="search" />
