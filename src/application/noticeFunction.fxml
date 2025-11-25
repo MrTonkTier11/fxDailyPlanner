@@ -137,15 +137,13 @@
                   </Pane>
                </children>
             </Pane>
-            <Button contentDisplay="CENTER" layoutX="370.0" layoutY="14.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="307.0" styleClass="icons-bilog" text="class: home" />
-            <Button contentDisplay="CENTER" layoutX="683.0" layoutY="14.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="school" />
-            <Button contentDisplay="CENTER" layoutX="801.0" layoutY="14.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="add" />
-            <Button contentDisplay="CENTER" layoutX="743.0" layoutY="14.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="work" />
+            <Button contentDisplay="CENTER" layoutX="744.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToSchoolSchedule" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="school" />
+            <Button contentDisplay="CENTER" layoutX="804.0" layoutY="14.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="add" />
             <Button contentDisplay="CENTER" layoutX="807.0" layoutY="285.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="48.0" styleClass="icons-bilog" text="scroll bar" />
             <Button contentDisplay="CENTER" layoutX="804.0" layoutY="637.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
             <Button contentDisplay="CENTER" layoutX="804.0" layoutY="518.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
             <Button contentDisplay="CENTER" layoutX="804.0" layoutY="576.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <Button contentDisplay="CENTER" layoutX="801.0" layoutY="79.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="add" />
+            <Button contentDisplay="CENTER" layoutX="684.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="home" />
          </children>
          <effect>
             <Blend opacity="0.13" />
@@ -153,14 +151,9 @@
       </Pane>
       <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button contentDisplay="CENTER" layoutX="80.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="98.0" styleClass="icons-bilog" text="prio" />
-            <Button contentDisplay="CENTER" layoutX="182.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="181.0" styleClass="icons-bilog" text="notice" />
-            <ImageView disable="true" fitHeight="66.0" fitWidth="61.0" layoutX="16.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
-               <image>
-                  <Image url="@image-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="58.0" prefWidth="250.0" styleClass="icons-bilog" text="third" />
+            <Button contentDisplay="CENTER" layoutX="99.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="88.0" styleClass="icons-bilog" text="prio" />
+            <Button contentDisplay="CENTER" layoutX="198.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="167.0" styleClass="icons-bilog" text="notice" />
+            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="250.0" styleClass="icons-bilog" text="third" />
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="307.0" styleClass="icons-bilog" text="search" />
             <Button contentDisplay="CENTER" layoutX="22.0" layoutY="636.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="48.0" stylesheets="@style.css">
                <styleClass>
@@ -174,8 +167,17 @@
                </image>
             </ImageView>
             <Button contentDisplay="CENTER" layoutX="326.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="add" />
-            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="58.0" prefWidth="250.0" styleClass="icons-bilog" text="second" />
+            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="160.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="250.0" styleClass="icons-bilog" text="second" />
             <Button contentDisplay="CENTER" layoutX="373.0" layoutY="111.0" mnemonicParsing="false" prefHeight="189.0" prefWidth="16.0" styleClass="icons-bilog" />
+            <Button layoutX="11.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="58.0" prefWidth="81.0" styleClass="icons-bilog">
+               <graphic>
+                  <ImageView disable="true" fitHeight="47.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
+                     <image>
+                        <Image url="@image-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </Pane>
    </children>

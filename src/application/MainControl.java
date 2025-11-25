@@ -17,6 +17,7 @@ public class MainControl {
 	private Scene scene;
 	private Parent root;
 	
+	//For the switching of scenes:
 	public void switchToHomeView (ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("homeView.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -41,12 +42,34 @@ public class MainControl {
 		stage.show();
 	}
 	public void switchToWorkSchedule (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("workView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("workSchedule.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
+	public void switchToDailyPlan (ActionEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("dailyPlan.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	public void switchPrioTask (ActionEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("prioTask.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	public void switchToNotice (ActionEvent event) throws IOException{
+		Parent root = FXMLLoader.load(getClass().getResource("noticeFunction.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show(); 	
+	}
+
 
 
 }
