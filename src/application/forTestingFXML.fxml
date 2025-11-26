@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Pane fx:id="createSchedulePane" layoutX="412.0" layoutY="10.0" prefHeight="701.0" prefWidth="863.0" 
+      styleClass="pane" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="9.0" 
+      AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+    <children>
+        
+        <Pane layoutX="14.0" layoutY="14.0" prefHeight="350.0" prefWidth="600.0" styleClass="itsura-ng-buttonz">
+            <TextField fx:id="noteField" layoutX="10.0" layoutY="40.0" prefHeight="300.0" prefWidth="580.0" promptText="Enter note here" />
+        </Pane>
+        
+        <Pane layoutX="14.0" layoutY="380.0" prefHeight="300.0" prefWidth="300.0" styleClass="itsura-ng-buttonz">
+            <TextField fx:id="monthField" layoutX="10.0" layoutY="50.0" prefWidth="100.0" promptText="Month" />
+            <TextField fx:id="dayField" layoutX="120.0" layoutY="50.0" prefWidth="100.0" promptText="Day" />
+            <TextField fx:id="hourField" layoutX="10.0" layoutY="120.0" prefWidth="100.0" promptText="Hour" />
+            <TextField fx:id="minuteField" layoutX="120.0" layoutY="120.0" prefWidth="100.0" promptText="Mins" />
+            <Button text="Set" onAction="#saveSchedule" layoutX="200.0" layoutY="200.0" styleClass="icons-bilog" />
+        </Pane>
+        
+        <VBox layoutX="620.0" layoutY="14.0" spacing="10.0" alignment="CENTER">
+            <Button text="S" fx:id="sunButton" styleClass="icons-bilog" onAction="#toggleDaySelection" />
+            <Button text="M" fx:id="monButton" styleClass="icons-bilog" onAction="#toggleDaySelection" />
+            </VBox>
+        
+    </children>
+</Pane>
