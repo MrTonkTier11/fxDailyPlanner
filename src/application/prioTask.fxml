@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainControl">
    <children>
@@ -36,6 +38,98 @@
             <Pane layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
                <children>
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
+                  <Pane id="menuPane" layoutX="13.0" layoutY="75.0" prefHeight="321.0" prefWidth="578.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <Pane id="menuPane" layoutX="13.0" layoutY="404.0" prefHeight="189.0" prefWidth="359.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="89.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month    /     day     " wrappingWidth="181.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <Pane id="menuPane" layoutX="597.0" layoutY="75.0" prefHeight="430.0" prefWidth="174.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text layoutX="8.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="T" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="W" wrappingWidth="131.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="T" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="F" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="8.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="190.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="249.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                        <Button contentDisplay="CENTER" layoutX="78.0" layoutY="369.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
+                     </children>
+                  </Pane>
+                  <Pane id="menuPane" layoutX="597.0" layoutY="510.0" prefHeight="83.0" prefWidth="174.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text layoutX="67.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set" wrappingWidth="40.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <Pane id="menuPane" layoutX="377.0" layoutY="404.0" prefHeight="189.0" prefWidth="214.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="88.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="40.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="hour    /     mins" wrappingWidth="181.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="21.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Button contentDisplay="CENTER" layoutX="741.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToSchoolSchedule" prefHeight="54.0" prefWidth="54.0" styleClass="icons-bilog" text="school" />

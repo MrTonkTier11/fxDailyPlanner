@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
+
+
 public class MainControl {
 	private Stage stage;
 	private Scene scene;
