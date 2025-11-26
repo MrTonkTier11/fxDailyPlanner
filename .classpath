@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFX25(alfonz)"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFxNew"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kieldakz"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JAVAFX25"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
