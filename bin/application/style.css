@@ -26,3 +26,22 @@
 .color-specific-shade{
 	-fx-background-color: #707070;
 }
+
+/* Custom class for Day Toggle Buttons */
+.toggle-button-day {
+    -fx-background-color: #AAAAAA; /* Gray background when unselected */
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style when the button IS selected (toggled on) */
+.toggle-button-day:selected {
+    -fx-background-color: #007AFF; /* Bright blue background */
+}
+
+/* You may need to adjust the controller logic as well: */
+/* In the controller, you are using: source.getStyleClass().add("selected-day"); */
+/* If you stick with ToggleButton, the controller logic should primarily rely on the 
+   ToggleButton's built-in `:selected` state, not manually managing the 'selected-day' style class. */

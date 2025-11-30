@@ -3,6 +3,11 @@ package application;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Task {
     private String name;
     private LocalDate date;
@@ -21,4 +26,15 @@ public class Task {
     public void setDate(LocalDate date) { this.date = date; }
     public void setTime(LocalTime time) { this.time = time; }
     public void setDescription(String desc) { this.description = desc; }
+
+     //NEW!!  (search method)
+    public boolean matches(String query) {
+        return name.toLowerCase().contains(query.toLowerCase());
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
+

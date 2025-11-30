@@ -1,23 +1,60 @@
 package application;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TaskScheduler {
+    
     private String note;
-    private String date; // Month/Day
-    private String time; // Hour/Mins
-    private List<String> daysOfWeek; // e.g., ["M", "W", "F"]
+    private int startHour;
+    private int startMinute;
+    private int durationHours;
+    private int durationMinutes;
+    private int durationSeconds;
+    private List<String> recurringDays;
+    private LocalDateTime currentStartTime; 
+    private String noteDetail; 
+    private boolean alarmTriggered = false; 
 
-    public TaskScheduler(String note, String date, String time, List<String> daysOfWeek) {
+    public TaskScheduler(String note, int startHour, int startMinute, 
+                         int durationHours, int durationMinutes, int durationSeconds, 
+                         String noteDetail, 
+                         List<String> recurringDays) {
         this.note = note;
-        this.date = date;
-        this.time = time;
-        this.daysOfWeek = daysOfWeek;
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.durationHours = durationHours;
+        this.durationMinutes = durationMinutes;
+        this.durationSeconds = durationSeconds;
+        this.recurringDays = recurringDays;
+        this.noteDetail = noteDetail; 
     }
 
-    // Getters and Setters (omitted for brevity, but needed in a real app)
+    // Getters
     public String getNote() { return note; }
-    public String getDate() { return date; }
-    public String getTime() { return time; }
-    public List<String> getDaysOfWeek() { return daysOfWeek; }
+    public int getStartHour() { return startHour; }
+    public int getStartMinute() { return startMinute; }
+    public int getDurationHours() { return durationHours; }
+    public int getDurationMinutes() { return durationMinutes; }
+    public int getDurationSeconds() { return durationSeconds; }
+    public List<String> getRecurringDays() { return recurringDays; }
+    public LocalDateTime getCurrentStartTime() { return currentStartTime; }
+    public String getNoteDetail() { return noteDetail; }
+
+    // Alarm State Getters and Setters
+    public boolean isAlarmTriggered() {
+        return alarmTriggered;
+    }
+
+    public void setAlarmTriggered(boolean alarmTriggered) {
+        this.alarmTriggered = alarmTriggered;
+    }
+    
+    // Setter for currentStartTime (resets alarm state when starting)
+    public void setCurrentStartTime(LocalDateTime currentStartTime) {
+        this.currentStartTime = currentStartTime;
+        if (currentStartTime != null) {
+            this.alarmTriggered = false; // Reset alarm state when starting a new run
+        }
+    }
 }

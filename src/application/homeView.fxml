@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,22 +18,24 @@
    <children>
       <Pane id="dashBoard" layoutX="412.0" layoutY="10.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox alignment="CENTER" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="77.0" prefWidth="383.0" styleClass="hbox" stylesheets="@style.css">
+            <HBox alignment="CENTER" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="123.0" styleClass="hbox" stylesheets="@style.css">
                <children>
-                  <Pane prefHeight="77.0" prefWidth="383.0">
+                  <Pane prefHeight="77.0" prefWidth="87.0">
                      <children>
-                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="14.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="65.0" text="add">
+                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="-4.0" layoutY="1.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="65.0" text="add">
                            <styleClass>
                               <String fx:value="icons-bilog" />
                               <String fx:value="pane" />
                            </styleClass>
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
                         </Button>
-                        <TextField fx:id="taskNameField" alignment="CENTER" layoutX="92.0" prefHeight="54.0" prefWidth="307.0" styleClass="itsura-ng-buttonz" />
                      </children>
                   </Pane>
                </children>
             </HBox>
-            <Pane layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
+            <Pane fx:id="dashBoardMain" layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
                <children>
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
                </children>
@@ -58,61 +61,148 @@
                </children>
             </HBox>
             
-            <Pane fx:id="createSchedulePane" layoutX="0.0" layoutY="0.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" visible="false">
-                <children>
-                    <Pane layoutX="14.0" layoutY="100.0" prefHeight="480.0" prefWidth="550.0" styleClass="itsura-ng-buttonz">
-                        <children>
-                            <Label layoutX="14.0" layoutY="14.0" text="NOTE">
-                           <font>
-                              <Font name="System Bold Italic" size="21.0" />
-                           </font></Label>
-                            <TextField fx:id="noteField" alignment="TOP_LEFT" layoutX="14.0" layoutY="56.0" prefHeight="404.0" prefWidth="520.0" promptText="Enter detailed notes for your schedule here" styleClass="itsura-ng-buttonz">
-                           <font>
-                              <Font name="JetBrains Mono Light" size="15.0" />
-                           </font></TextField>
-                        </children>
-                    </Pane>
+            <Button fx:id="search1" contentDisplay="CENTER" layoutX="137.0" layoutY="12.0" mnemonicParsing="false" onAction="#searchTasks" prefHeight="58.0" prefWidth="373.0" styleClass="icons-bilog" text="Search Task...                        ">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
+            <TextField fx:id="searchField1" layoutX="148.0" layoutY="20.0" onAction="#searchTasks" prefHeight="43.0" prefWidth="347.0" promptText="SearchTasks..." styleClass="pane">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </TextField>
+            
+<Pane fx:id="createSchedulePane" layoutX="0.0" layoutY="0.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" visible="false">
+    <children>
+        <Pane layoutX="14.0" layoutY="100.0" prefHeight="480.0" prefWidth="550.0" styleClass="itsura-ng-buttonz">
+            <children>
+                <Label layoutX="14.0" layoutY="14.0" text="TITLE">
+                    <font>
+                        <Font name="System Bold Italic" size="21.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="titleField" alignment="TOP_LEFT" layoutX="40.0" layoutY="45.0" prefHeight="31.0" prefWidth="483.0" promptText="Enter the main title for your schedule" styleClass="itsura-ng-buttonz">
+                    <font>
+                        <Font name="JetBrains Mono Light Italic" size="20.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="noteField" alignment="TOP_LEFT" layoutX="14.0" layoutY="138.0" prefHeight="312.0" prefWidth="508.0" promptText="Enter detailed notes for your schedule here" styleClass="itsura-ng-buttonz">
+                    <font>
+                        <Font name="JetBrains Mono Light" size="15.0" />
+                    </font>
+                </TextField>
+                <Label layoutX="14.0" layoutY="107.0" text="NOTE">
+                    <font>
+                        <Font name="System Bold Italic" size="21.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
 
-                    <Pane layoutX="574.0" layoutY="380.0" prefHeight="200.0" prefWidth="275.0" styleClass="itsura-ng-buttonz">
-                        <children>
-                            <Label layoutX="14.0" layoutY="14.0" text="Date" />
-                            <TextField fx:id="monthField" layoutX="14.0" layoutY="40.0" prefWidth="70.0" promptText="Month" />
-                            <TextField fx:id="dayField" layoutX="89.0" layoutY="40.0" prefWidth="70.0" promptText="Day" />
-                            
-                            <Label layoutX="14.0" layoutY="80.0" text="Time" />
-                            <TextField fx:id="hourField" layoutX="14.0" layoutY="106.0" prefWidth="70.0" promptText="Hour" />
-                            <TextField fx:id="minuteField" layoutX="89.0" layoutY="106.0" prefWidth="70.0" promptText="Mins" />
-
-                            <Button layoutX="185.0" layoutY="40.0" onAction="#saveSchedule" prefHeight="60.0" prefWidth="70.0" styleClass="icons-bilog" text="Set" />
-                        </children>
-                    </Pane>
+		<Pane layoutX="574.0" layoutY="380.0" prefHeight="200.0" prefWidth="275.0" styleClass="itsura-ng-buttonz">
+		    <children>
+		        <Label layoutX="14.0" layoutY="14.0" text="START TIME (24HR)" textFill="WHITE"> 
+		            <font>
+		                <Font name="System Bold Italic" size="15.0" />
+		            </font>
+		        </Label>
+		        <TextField fx:id="monthField" layoutX="14.0" layoutY="40.0" prefWidth="70.0" promptText="HOUR (0-23)" /> 
+		        <TextField fx:id="dayField" layoutX="89.0" layoutY="40.0" prefWidth="70.0" promptText="MIN" /> 
+		        
+		        <Label layoutX="14.0" layoutY="80.0" text="DURATION TIMER" textFill="WHITE">
+		            <font>
+		                <Font name="System Bold Italic" size="15.0" />
+		            </font>
+		        </Label>
+		        <TextField fx:id="hourField" layoutX="14.0" layoutY="106.0" prefWidth="70.0" promptText="HRS" />
+		        <TextField fx:id="minuteField" layoutX="89.0" layoutY="106.0" prefWidth="70.0" promptText="MIN" />
+		        <TextField fx:id="secondsField" layoutX="166.0" layoutY="106.0" prefWidth="70.0" promptText="SEC" /> 
+                <Button layoutX="166.0" layoutY="11.0" onAction="#saveSchedule" prefHeight="85.0" prefWidth="102.0" text="Set">
+		           <styleClass>
+		              <String fx:value="icons-bilog" />
+		              <String fx:value="toggle-button-day" />
+		           </styleClass>
+		           <font>
+		              <Font size="30.0" />
+		           </font>
+		        </Button>
+		    </children>
+		</Pane>
+        
+        <VBox alignment="TOP_CENTER" layoutX="574.0" layoutY="100.0" prefHeight="270.0" prefWidth="275.0" spacing="10.0" styleClass="itsura-ng-buttonz">
+            <children>
+                <Label text="Repeat Days">
+                    <font>
+                        <Font name="System Bold Italic" size="21.0" />
+                    </font>
+                </Label>
+                
+                <HBox alignment="CENTER" prefHeight="91.0" prefWidth="275.0" spacing="3.0">
                     
-                    <VBox alignment="TOP_CENTER" layoutX="574.0" layoutY="100.0" prefHeight="270.0" prefWidth="275.0" spacing="10.0" styleClass="itsura-ng-buttonz">
-                        <children>
-                            <Label text="Repeat Days">
-                           <font>
-                              <Font name="System Bold Italic" size="21.0" />
-                           </font></Label>
-                            <HBox alignment="CENTER" prefHeight="91.0" prefWidth="275.0" spacing="5.0">
-                                <Button fx:id="sunButton" lineSpacing="2.0" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="S" textOverrun="CLIP" />
-                                <Button fx:id="monButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="M" />
-                                <Button fx:id="tueButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="T" />
-                                <Button fx:id="wedButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="W" />
-                                <Button fx:id="thuButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="T" />
-                                <Button fx:id="friButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="F" />
-                                <Button fx:id="satButton" onAction="#toggleDaySelection" prefHeight="30.0" prefWidth="30.0" styleClass="icons-bilog" text="S" />
-                            </HBox>
-                        </children>
-                    </VBox>
-                    
-                    <Pane layoutX="14.0" layoutY="14.0" prefHeight="77.0" prefWidth="835.0" styleClass="hbox">
-                        <children>
-                           <Label layoutX="14.0" layoutY="25.0" styleClass="header-text" text="CREATE NEW SCHEDULE" />
-                           <Button layoutX="760.0" layoutY="18.0" mnemonicParsing="false" onAction="#hideScheduleForm" prefHeight="40.0" prefWidth="70.0" styleClass="itsura-ng-buttonz" text="Cancel" />
-                        </children>
-                    </Pane>
-                </children>
-            </Pane>
+                    <ToggleButton fx:id="sunButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="S">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="monButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="M">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="tueButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="T">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="wedButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="W">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="thuButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="T">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="friButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="F">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                    <ToggleButton fx:id="satButton" onAction="#toggleDaySelection" prefHeight="35.0" prefWidth="35.0" text="S">
+                        <styleClass>
+                            <String fx:value="toggle-button-day" />
+                            <String fx:value="day-button-size" />
+                        </styleClass>
+                    </ToggleButton>
+                </HBox>
+            </children>
+        </VBox>
+        
+        <Pane layoutX="14.0" layoutY="14.0" prefHeight="77.0" prefWidth="835.0" styleClass="itsura-ng-buttonz" stylesheets="@style.css">
+            <children>
+                <Label alignment="CENTER" layoutX="14.0" layoutY="10.0" styleClass="header-text" text="CREATE NEW SCHEDULE">
+                    <font>
+                        <Font name="System Bold" size="39.0" />
+                    </font>
+                </Label>
+                <Button layoutX="760.0" layoutY="18.0" mnemonicParsing="false" onAction="#hideScheduleForm" prefHeight="40.0" prefWidth="70.0" text="Cancel" textFill="WHITE">
+                    <styleClass>
+                        <String fx:value="itsura-ng-buttonz" />
+                        <String fx:value="color-specific-shade" />
+                    </styleClass>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</Pane>
+         
             </children>
          <effect>
             <Blend opacity="0.13" />
@@ -121,26 +211,23 @@
       <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
          <children>
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="All Tasks" />
-            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="prio" />
-            <Button contentDisplay="CENTER" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="notice" />
+            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="PRIORITY" />
+            <Button contentDisplay="CENTER" layoutX="296.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="NOTICE" />
             <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
                <image>
                   <Image url="@image-removebg-preview.png" />
                </image>
             </ImageView>
-            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="307.0" styleClass="icons-bilog" text="search" />
-            <Button contentDisplay="CENTER" layoutX="22.0" layoutY="636.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="48.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="icons-bilog" />
-                  <String fx:value="color-specific-shade" />
-               </styleClass>
+            <Button fx:id="search" contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" onAction="#searchTasks" prefHeight="58.0" prefWidth="373.0" styleClass="icons-bilog" text="Search Task...                        ">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
             </Button>
-            <ImageView fitHeight="31.0" fitWidth="41.0" layoutX="29.0" layoutY="642.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@search-icon.png" />
-               </image>
-            </ImageView>
-            <Button contentDisplay="CENTER" layoutX="326.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="add" />
+            <TextField fx:id="searchField" layoutX="25.0" layoutY="637.0" onAction="#searchTasks" prefHeight="43.0" prefWidth="347.0" promptText="SearchTasks..." styleClass="pane">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </TextField>
             <VBox fx:id="taskMenuTwo" alignment="TOP_CENTER" layoutX="55.0" layoutY="106.0" prefHeight="478.0" prefWidth="276.0" spacing="15.0" styleClass="pane" />
          </children>
       </Pane>
