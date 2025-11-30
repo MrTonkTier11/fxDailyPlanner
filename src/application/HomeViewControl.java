@@ -249,16 +249,42 @@ public class HomeViewControl implements Initializable {
                     statusText = calculateTimeRemaining(task);
                     timeLabel.setStyle("-fx-text-fill: green;");
                 }
-                
+                //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 timeLabel.setText(statusText);
-                
-                taskRow.getChildren().addAll(nameLabel, timeLabel);
+                Button prioBtn = new Button("Priority"); 
+                prioBtn.setStyle("-fx-font-size: 16px; -fx-background-color: gold;");
+                prioBtn.setOnAction(e -> {
+                    if (!GlobalData.prioTasks.contains(task)) {
+                        GlobalData.prioTasks.add(task);
+                        showAlert("Priority Added", task.getNote() + " is now a priority task!");
+                    } else {
+                        showAlert("Already Priority", "This task is already marked as priority.");
+                    }
+                });
+
+                // ✅ ✅ AUTO DELETE BUTTON
+                Button deleteBtn = new Button("Delete");
+                deleteBtn.setStyle("-fx-font-size: 16px; -fx-background-color: red; -fx-text-fill: white;");
+                deleteBtn.setOnAction(e -> {
+                    GlobalData.schedules.remove(task);
+                    GlobalData.prioTasks.remove(task); // also remove from priority if needed
+                    taskMenuTwo.getChildren().remove(taskRow);
+
+                    // Clear dashboard if deleted task is selected
+                    if (task == selectedTask) {
+                        selectedTask = null;
+                        dashBoardMain.getChildren().clear();
+                    }
+                });
+
+                taskRow.getChildren().addAll(nameLabel, timeLabel, prioBtn, deleteBtn);
                 taskMenuTwo.getChildren().add(taskRow);
-                
+
                 // Maintain highlight if this task is currently selected
                 if (task == this.selectedTask) {
                     taskRow.setStyle("-fx-background-color: #3498db;"); 
                 }
+
                 
                 tasksFound++; 
             }

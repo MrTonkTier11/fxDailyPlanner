@@ -117,15 +117,11 @@ public class MainControl {
 	//Existing scene switching methods...
     //revised action + added refresh 
     public void switchToHomeView(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("homeView.fxml"));
-        Parent root = loader.load();
-//--
-        MainControl controller = loader.getController();
-        controller.refreshTaskList();   //shown again using static tasks
-//--
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    	Parent root = FXMLLoader.load(getClass().getResource("homeView.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
     }
 	public void switchToHomeSchedule (ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("homeSched.fxml"));
@@ -156,13 +152,20 @@ public class MainControl {
 		stage.setScene(scene);
 		stage.show();
 	}
-	public void switchPrioTask (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("prioTask.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+	public void switchPrioTask(ActionEvent event) throws IOException {
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource("prioTask.fxml"));
+	    Parent root = loader.load();
+
+	    // Get controller instance and refresh priority list
+	    PriorityController prioCtrl = loader.getController();
+	    prioCtrl.loadPriorityTasks();
+
+	    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	    Scene scene = new Scene(root);
+	    stage.setScene(scene);
+	    stage.show();
 	}
+	
 	public void switchToNotice (ActionEvent event) throws IOException{
 		Parent root = FXMLLoader.load(getClass().getResource("noticeFunction.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();

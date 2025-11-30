@@ -9,4 +9,6 @@ public class GlobalData {
 
     // Shared list of the full schedule objects
     public static List<TaskScheduler> schedules = new ArrayList<>();
+    
+    public static List<TaskScheduler> prioTasks = new ArrayList<>();
 }

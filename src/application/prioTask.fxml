@@ -2,16 +2,18 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainControl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PriorityController">
    <children>
       <Pane id="dashBoard" layoutX="412.0" layoutY="10.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -19,18 +21,12 @@
                <children>
                   <Pane prefHeight="77.0" prefWidth="383.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="338.0" styleClass="icons-bilog" text="search in planner" />
                         <Button contentDisplay="CENTER" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="48.0" stylesheets="@style.css">
                            <styleClass>
                               <String fx:value="icons-bilog" />
                               <String fx:value="color-specific-shade" />
                            </styleClass>
                         </Button>
-                        <ImageView fitHeight="31.0" fitWidth="41.0" layoutX="21.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@search-icon.png" />
-                           </image>
-                        </ImageView>
                      </children>
                   </Pane>
                </children>
@@ -38,30 +34,30 @@
             <Pane layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
                <children>
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
-                  <Pane id="menuPane" layoutX="13.0" layoutY="75.0" prefHeight="321.0" prefWidth="578.0" styleClass="pane" stylesheets="@style.css">
+                  <Pane id="menuPane" fx:id="taskwindow" layoutX="13.0" layoutY="20.0" prefHeight="376.0" prefWidth="578.0" styleClass="pane" stylesheets="@style.css">
                      <children>
-                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note" wrappingWidth="88.0">
+                        <Text fx:id="detail" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" wrappingWidth="88.0">
                            <font>
                               <Font name="SansSerif Italic" size="21.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-                  <Pane id="menuPane" layoutX="13.0" layoutY="404.0" prefHeight="189.0" prefWidth="359.0" styleClass="pane" stylesheets="@style.css">
+                  <Pane id="menuPane" fx:id="date" layoutX="13.0" layoutY="404.0" prefHeight="189.0" prefWidth="359.0" styleClass="pane" stylesheets="@style.css">
                      <children>
                         <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" wrappingWidth="88.0">
                            <font>
                               <Font name="SansSerif Italic" size="21.0" />
                            </font>
                         </Text>
-                        <Text layoutX="89.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month    /     day     " wrappingWidth="181.0">
+                        <Text fx:id="deadline" layoutX="89.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month    /     day     " wrappingWidth="181.0">
                            <font>
                               <Font name="SansSerif Italic" size="21.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-                  <Pane id="menuPane" layoutX="597.0" layoutY="75.0" prefHeight="430.0" prefWidth="174.0" styleClass="pane" stylesheets="@style.css">
+                  <Pane id="menuPane" fx:id="day" layoutX="597.0" layoutY="19.0" prefHeight="426.0" prefWidth="174.0" styleClass="pane" stylesheets="@style.css">
                      <children>
                         <Text layoutX="8.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M" wrappingWidth="88.0">
                            <font>
@@ -107,23 +103,14 @@
                         <Button contentDisplay="CENTER" layoutX="78.0" layoutY="369.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="icons-bilog" />
                      </children>
                   </Pane>
-                  <Pane id="menuPane" layoutX="597.0" layoutY="510.0" prefHeight="83.0" prefWidth="174.0" styleClass="pane" stylesheets="@style.css">
-                     <children>
-                        <Text layoutX="67.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set" wrappingWidth="40.0">
-                           <font>
-                              <Font name="SansSerif Italic" size="21.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
                   <Pane id="menuPane" layoutX="377.0" layoutY="404.0" prefHeight="189.0" prefWidth="214.0" styleClass="pane" stylesheets="@style.css">
                      <children>
-                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="88.0">
+                        <Text fx:id="time" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="88.0">
                            <font>
                               <Font name="SansSerif Italic" size="21.0" />
                            </font>
                         </Text>
-                        <Text layoutX="40.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="hour    /     mins" wrappingWidth="181.0">
+                        <Text fx:id="countdown" layoutX="40.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="hour    /     mins" wrappingWidth="181.0">
                            <font>
                               <Font name="SansSerif Italic" size="21.0" />
                            </font>
@@ -146,10 +133,20 @@
       </Pane>
       <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button contentDisplay="CENTER" layoutX="109.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="153.0" styleClass="icons-bilog" text="prio" />
-            <Button contentDisplay="CENTER" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="98.0" styleClass="icons-bilog" text="notice" />
-            <Button contentDisplay="CENTER" layoutX="8.0" layoutY="90.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="250.0" styleClass="icons-bilog" text="first" />
-            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="307.0" styleClass="icons-bilog" text="search" />
+            <Button contentDisplay="CENTER" layoutX="109.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="167.0" styleClass="icons-bilog" text="PRIORITY">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Button>
+            <Button contentDisplay="CENTER" layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="81.0" styleClass="icons-bilog" text="NOTICE">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Button>
+            <Button contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="359.0" styleClass="icons-bilog" textAlignment="CENTER" />
+            <TextField fx:id="Search" layoutX="77.0" layoutY="636.0" prefHeight="43.0" prefWidth="274.0" promptText="Search..." styleClass="pane" text="SEARCH TASK...">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </TextField>
             <Button contentDisplay="CENTER" layoutX="22.0" layoutY="636.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="48.0" stylesheets="@style.css">
                <styleClass>
                   <String fx:value="icons-bilog" />
@@ -161,7 +158,6 @@
                   <Image url="@search-icon.png" />
                </image>
             </ImageView>
-            <Button contentDisplay="CENTER" layoutX="326.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="add" />
             <Button layoutX="8.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="58.0" prefWidth="98.0" styleClass="icons-bilog">
                <graphic>
                   <ImageView disable="true" fitHeight="54.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
@@ -171,6 +167,7 @@
                   </ImageView>
                </graphic>
             </Button>
+            <VBox fx:id="prioListBox" layoutX="29.0" layoutY="98.0" prefHeight="517.0" prefWidth="338.0" />
          </children>
       </Pane>
    </children>
