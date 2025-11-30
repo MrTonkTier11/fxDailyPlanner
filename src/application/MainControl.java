@@ -35,9 +35,8 @@ public class MainControl {
     @FXML
     private TextField searchField; // NEW!! (For searching)
     
-    
-    private Deque<Task> allTasks = new ArrayDeque<>(); //NEW !! (Double-ended Queue)
-
+    @FXML
+    public static Deque<Task> allTasks = new ArrayDeque<>(); //NEW !! (Double-ended Queue)
     /**
      * Handles adding a new task button to both HBox (taskMenuOne) 
      * and VBox (taskMenuTwo) when the 'Add' button is clicked.
@@ -101,19 +100,33 @@ public class MainControl {
         taskMenuOne.getChildren().add(buttonOne);
         taskMenuTwo.getChildren().add(buttonTwo);
     }
-
-    
-   //-------------------------------------------------------------------------------------------
+//Newly added task deque
+    //store tasks
+    public void setAllTasks(Deque<Task> tasks) {
+        this.allTasks = tasks;
+        refreshTaskList();  
+    }
+    //Instead of creating a new homeview this refresh the added tasks
+    public void refreshTaskList() {
+        // Re-add all tasks from deque
+        for (Task task : allTasks) {
+            addTaskButtonsToUI(task);
+        }
+    }
 
 	//Existing scene switching methods...
-	public void switchToHomeView (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("homeView.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
+    //revised action + added refresh 
+    public void switchToHomeView(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("homeView.fxml"));
+        Parent root = loader.load();
+//--
+        MainControl controller = loader.getController();
+        controller.refreshTaskList();   //shown again using static tasks
+//--
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 	public void switchToHomeSchedule (ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("homeSched.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();

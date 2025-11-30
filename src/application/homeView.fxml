@@ -20,7 +20,11 @@
                <children>
                   <Pane prefHeight="77.0" prefWidth="383.0">
                      <children>
-                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="14.0" mnemonicParsing="false" onAction="#addTask" prefHeight="54.0" prefWidth="65.0" text="ADD">
+                        <TextField fx:id="taskNameField" alignment="CENTER" layoutX="11.0" opacity="0.71" prefHeight="54.0" prefWidth="383.0" promptText="Enter Task Name" styleClass="icons-bilog">
+                           <font>
+                              <Font name="System Bold Italic" size="21.0" />
+                           </font></TextField>
+                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="7.0" mnemonicParsing="false" onAction="#addTask" prefHeight="54.0" prefWidth="65.0" text="ADD">
                            <styleClass>
                               <String fx:value="icons-bilog" />
                               <String fx:value="pane" />
@@ -29,10 +33,6 @@
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
                         </Button>
-                        <TextField fx:id="taskNameField" alignment="CENTER" layoutX="87.0" opacity="0.71" prefHeight="54.0" prefWidth="307.0" promptText="Enter Task Name" styleClass="itsura-ng-buttonz">
-                           <font>
-                              <Font name="System Bold Italic" size="21.0" />
-                           </font></TextField>
                      </children>
                   </Pane>
                </children>
@@ -43,18 +43,18 @@
                </children>
             </Pane>
             <Button contentDisplay="CENTER" layoutX="807.0" layoutY="285.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="48.0" styleClass="icons-bilog" text="scroll bar" />
-            <Button fx:id="pauseAllTask" contentDisplay="CENTER" layoutX="804.0" layoutY="637.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <Button fx:id="editTask" contentDisplay="CENTER" layoutX="804.0" layoutY="518.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <Button fx:id="editDateAndTime" contentDisplay="CENTER" layoutX="804.0" layoutY="576.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
+            <Button fx:id="pauseAllTask" contentDisplay="CENTER" layoutX="804.0" layoutY="637.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" text="INFO" />
+            <Button fx:id="editTask" contentDisplay="CENTER" layoutX="804.0" layoutY="518.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" text="TIME" />
+            <Button fx:id="editDateAndTime" contentDisplay="CENTER" layoutX="804.0" layoutY="576.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" text="EDIT" />
             <HBox fx:id="taskMenuOne" alignment="TOP_RIGHT" layoutX="459.0" layoutY="14.0" prefHeight="54.0" prefWidth="338.0" spacing="15.0" styleClass="pane">
                <children>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="54.0" prefWidth="65.0" text="home">
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToHomeSchedule" prefHeight="54.0" prefWidth="65.0" text="HOME">
                      <styleClass>
                         <String fx:value="icons-bilog" />
                         <String fx:value="pane" />
                      </styleClass>
                   </Button>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToSchoolSchedule" prefHeight="54.0" prefWidth="67.0" text="school">
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToSchoolSchedule" prefHeight="54.0" prefWidth="67.0" text="SCHOOL">
                      <styleClass>
                         <String fx:value="icons-bilog" />
                         <String fx:value="pane" />
@@ -70,18 +70,18 @@
       <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
          <children>
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="All Tasks" />
-            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="prio" />
-            <Button contentDisplay="CENTER" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="notice" />
+            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="PRIORITY" />
+            <Button contentDisplay="CENTER" layoutX="296.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="NOTICE" />
             <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
                <image>
                   <Image url="@image-removebg-preview.png" />
                </image>
             </ImageView>
-            <Button fx:id="search" contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" onAction="#searchTasks" prefHeight="58.0" prefWidth="307.0" styleClass="icons-bilog" text="Search Task...                        ">
+            <Button fx:id="search" contentDisplay="CENTER" layoutX="14.0" layoutY="629.0" mnemonicParsing="false" onAction="#searchTasks" prefHeight="58.0" prefWidth="373.0" styleClass="icons-bilog" text="Search Task...                        ">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font></Button>
-            <TextField fx:id="searchField" layoutX="76.0" layoutY="637.0" onAction="#searchTasks" prefHeight="43.0" prefWidth="218.0" promptText="SearchTasks..." styleClass="pane">
+            <TextField fx:id="searchField" layoutX="76.0" layoutY="637.0" onAction="#searchTasks" prefHeight="43.0" prefWidth="296.0" promptText="SearchTasks..." styleClass="pane">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -97,7 +97,6 @@
                   <Image url="@search-icon.png" />
                </image>
             </ImageView>
-            <Button contentDisplay="CENTER" layoutX="326.0" layoutY="629.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="61.0" styleClass="icons-bilog" text="add" />
             <VBox fx:id="taskMenuTwo" alignment="TOP_CENTER" layoutX="55.0" layoutY="106.0" prefHeight="478.0" prefWidth="276.0" spacing="15.0" styleClass="pane">
                <children>
                   <Button mnemonicParsing="false" text="Button" />
