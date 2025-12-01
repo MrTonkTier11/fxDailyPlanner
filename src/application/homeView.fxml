@@ -22,7 +22,7 @@
                <children>
                   <Pane prefHeight="77.0" prefWidth="87.0">
                      <children>
-                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="-4.0" layoutY="1.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="65.0" text="add">
+                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="-4.0" layoutY="1.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="70.0" text="ADD">
                            <styleClass>
                               <String fx:value="icons-bilog" />
                               <String fx:value="pane" />
@@ -40,11 +40,10 @@
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
                </children>
             </Pane>
-            <Button contentDisplay="CENTER" layoutX="807.0" layoutY="285.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="48.0" styleClass="icons-bilog" text="scroll bar" />
             <Button fx:id="pauseAllTask" contentDisplay="CENTER" layoutX="804.0" layoutY="637.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
             <Button fx:id="editTask" contentDisplay="CENTER" layoutX="804.0" layoutY="518.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
             <Button fx:id="editDateAndTime" contentDisplay="CENTER" layoutX="804.0" layoutY="576.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <HBox fx:id="taskMenuOne" alignment="TOP_RIGHT" layoutX="459.0" layoutY="14.0" prefHeight="54.0" prefWidth="338.0" spacing="15.0" styleClass="pane">
+            <HBox fx:id="taskMenuOne" alignment="TOP_RIGHT" layoutX="402.0" layoutY="14.0" prefHeight="54.0" prefWidth="395.0" spacing="15.0" styleClass="pane">
                <children>
                   <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="65.0" text="home">
                      <styleClass>
@@ -60,17 +59,6 @@
                   </Button>
                </children>
             </HBox>
-            
-            <Button fx:id="search1" contentDisplay="CENTER" layoutX="137.0" layoutY="12.0" mnemonicParsing="false" onAction="#searchTasks" prefHeight="58.0" prefWidth="373.0" styleClass="icons-bilog" text="Search Task...                        ">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
-            <TextField fx:id="searchField1" layoutX="148.0" layoutY="20.0" onAction="#searchTasks" prefHeight="43.0" prefWidth="347.0" promptText="SearchTasks..." styleClass="pane">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </TextField>
             
 <Pane fx:id="createSchedulePane" layoutX="0.0" layoutY="0.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" visible="false">
     <children>

@@ -55,13 +55,16 @@ public class PriorityController implements Initializable {
                 Label timeLabel = new Label();
                 updateTimerLabel(task, timeLabel);
 
-                // 4️⃣ Priority button
-                Button prioBtn = new Button("★ Priority");
-                prioBtn.setStyle("-fx-background-color: gold; -fx-font-weight: bold;");
+                // 4️⃣ REMOVE PRIORITY button (new)
+                Button prioBtn = new Button("✖ Remove");
+                prioBtn.setStyle("-fx-background-color: #ff4d4d; -fx-font-weight: bold;");
+
                 prioBtn.setOnAction(e -> {
-                    if (!GlobalData.prioTasks.contains(task)) {
-                        GlobalData.prioTasks.add(task);
-                    }
+                    // Remove task from priority list
+                    GlobalData.prioTasks.remove(task);
+
+                    // Refresh view instantly
+                    loadPriorityTasks();
                 });
 
                 // 5️⃣ Add elements to HBox
@@ -141,6 +144,7 @@ public class PriorityController implements Initializable {
         duration.setLayoutX(10);
         duration.setLayoutY(150);
 
+        
         Label repeatDays = new Label("Repeats On: " + task.getRecurringDays());
         repeatDays.setLayoutX(10);
         repeatDays.setLayoutY(180);

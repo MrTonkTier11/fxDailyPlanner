@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox; 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox; 
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -23,7 +24,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleButton; 
-import javafx.scene.control.Label; 
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.geometry.Pos; 
 import javafx.application.Platform; 
 
@@ -189,49 +192,49 @@ public class HomeViewControl implements Initializable {
 
     public boolean filterTasks(String query) {
         if (taskMenuTwo == null || GlobalData.schedules == null) return false;
-        
-        String lowerCaseQuery = query.toLowerCase().trim();
-        int tasksFound = 0; 
 
-        taskMenuTwo.getChildren().clear(); 
+        String lowerCaseQuery = query.toLowerCase().trim();
+        int tasksFound = 0;
+
+        taskMenuTwo.getChildren().clear();
 
         for (TaskScheduler task : GlobalData.schedules) {
             String taskName = task.getNote();
-            
+
             if (taskName.toLowerCase().contains(lowerCaseQuery) || lowerCaseQuery.isEmpty()) {
-                
-                HBox taskRow = new HBox(10); 
+
+                HBox taskRow = new HBox(10);
                 taskRow.setAlignment(Pos.CENTER_LEFT);
                 taskRow.setMaxWidth(Double.MAX_VALUE);
-                taskRow.getStyleClass().add("icons-bilog"); 
+                taskRow.getStyleClass().add("icons-bilog");
                 taskRow.setPrefHeight(60.0);
-                
-                // ⭐️ UPDATED CLICK HANDLER: Set the selectedTask field ⭐️
+
+                // ⭐️ Click handler to select task
                 taskRow.setOnMouseClicked(event -> {
-                    this.selectedTask = task; // Set the selected task
+                    this.selectedTask = task;
                     displayTaskOnDashboard(task);
-                    
-                    // Highlight the selected row
-                    taskMenuTwo.getChildren().forEach(node -> node.setStyle(null)); 
-                    taskRow.setStyle("-fx-background-color: #3498db;"); 
+
+                    taskMenuTwo.getChildren().forEach(node -> node.setStyle(null));
+                    taskRow.setStyle("-fx-background-color: #3498db;");
                 });
-                
+
                 Label nameLabel = new Label(taskName);
                 nameLabel.getStyleClass().add("task-name-label");
-                nameLabel.setPrefWidth(200); 
-                
+
                 Label timeLabel = new Label();
                 timeLabel.getStyleClass().add("time-status-label");
-                
+
+                HBox.setHgrow(nameLabel, Priority.ALWAYS); // allow label to take space and push menu right
+
+                // Set status text
                 String statusText;
                 if (task.getCurrentStartTime() != null) {
-                    // Task is running, show duration remaining
                     LocalDateTime now = LocalDateTime.now();
-                    long totalDurationSeconds = (task.getDurationHours() * 3600) + 
-                                                (task.getDurationMinutes() * 60) + 
+                    long totalDurationSeconds = (task.getDurationHours() * 3600) +
+                                                (task.getDurationMinutes() * 60) +
                                                 task.getDurationSeconds();
                     long secondsLeft = ChronoUnit.SECONDS.between(now, task.getCurrentStartTime().plusSeconds(totalDurationSeconds));
-                    
+
                     if (secondsLeft <= 0) {
                         statusText = "TIME'S UP!";
                         timeLabel.setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
@@ -239,21 +242,22 @@ public class HomeViewControl implements Initializable {
                         long hrs = secondsLeft / 3600;
                         long mins = (secondsLeft % 3600) / 60;
                         long secs = secondsLeft % 60;
-                        
+
                         statusText = String.format("RUNNING: %02d:%02d:%02d left", hrs, mins, secs);
-                        timeLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;"); 
+                        timeLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
                     }
-                    
                 } else {
-                    // Task is scheduled, show time until next start
                     statusText = calculateTimeRemaining(task);
                     timeLabel.setStyle("-fx-text-fill: green;");
                 }
-                //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 timeLabel.setText(statusText);
-                Button prioBtn = new Button("Priority"); 
-                prioBtn.setStyle("-fx-font-size: 16px; -fx-background-color: gold;");
-                prioBtn.setOnAction(e -> {
+
+                // ----------------- Triple-Dot Menu -----------------
+                MenuButton optionsMenu = new MenuButton("⋮");
+                optionsMenu.setStyle("-fx-font-size: 20px; -fx-background-color: transparent;");
+
+                MenuItem prioItem = new MenuItem("Add Priority");
+                prioItem.setOnAction(e -> {
                     if (!GlobalData.prioTasks.contains(task)) {
                         GlobalData.prioTasks.add(task);
                         showAlert("Priority Added", task.getNote() + " is now a priority task!");
@@ -262,35 +266,35 @@ public class HomeViewControl implements Initializable {
                     }
                 });
 
-                // ✅ ✅ AUTO DELETE BUTTON
-                Button deleteBtn = new Button("Delete");
-                deleteBtn.setStyle("-fx-font-size: 16px; -fx-background-color: red; -fx-text-fill: white;");
-                deleteBtn.setOnAction(e -> {
+                MenuItem deleteItem = new MenuItem("Delete Task");
+                deleteItem.setOnAction(e -> {
                     GlobalData.schedules.remove(task);
-                    GlobalData.prioTasks.remove(task); // also remove from priority if needed
+                    GlobalData.prioTasks.remove(task);
                     taskMenuTwo.getChildren().remove(taskRow);
 
-                    // Clear dashboard if deleted task is selected
                     if (task == selectedTask) {
                         selectedTask = null;
                         dashBoardMain.getChildren().clear();
                     }
                 });
 
-                taskRow.getChildren().addAll(nameLabel, timeLabel, prioBtn, deleteBtn);
+                optionsMenu.getItems().addAll(prioItem, deleteItem);
+
+                // Add components to HBox with spacing
+                taskRow.getChildren().addAll(nameLabel, timeLabel, optionsMenu);
                 taskMenuTwo.getChildren().add(taskRow);
 
-                // Maintain highlight if this task is currently selected
                 if (task == this.selectedTask) {
-                    taskRow.setStyle("-fx-background-color: #3498db;"); 
+                    taskRow.setStyle("-fx-background-color: #3498db;");
                 }
 
-                
-                tasksFound++; 
+                tasksFound++;
             }
         }
-        return tasksFound > 0; 
+
+        return tasksFound > 0;
     }
+
     
     public void loadSavedTasks() {
         if (taskMenuOne == null || taskMenuTwo == null) {
