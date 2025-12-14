@@ -40,25 +40,7 @@
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
                </children>
             </Pane>
-            <Button fx:id="pauseAllTask" contentDisplay="CENTER" layoutX="804.0" layoutY="637.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <Button fx:id="editTask" contentDisplay="CENTER" layoutX="804.0" layoutY="518.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <Button fx:id="editDateAndTime" contentDisplay="CENTER" layoutX="804.0" layoutY="576.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="48.0" styleClass="icons-bilog" />
-            <HBox fx:id="taskMenuOne" alignment="TOP_RIGHT" layoutX="402.0" layoutY="14.0" prefHeight="54.0" prefWidth="395.0" spacing="15.0" styleClass="pane">
-               <children>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="65.0" text="home">
-                     <styleClass>
-                        <String fx:value="icons-bilog" />
-                        <String fx:value="pane" />
-                     </styleClass>
-                  </Button>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="67.0" text="school">
-                     <styleClass>
-                        <String fx:value="icons-bilog" />
-                        <String fx:value="pane" />
-                     </styleClass>
-                  </Button>
-               </children>
-            </HBox>
+            <HBox fx:id="taskMenuOne" alignment="TOP_RIGHT" layoutX="402.0" layoutY="14.0" prefHeight="54.0" prefWidth="395.0" spacing="15.0" styleClass="pane" />
             
 <Pane fx:id="createSchedulePane" layoutX="0.0" layoutY="0.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" visible="false">
     <children>
@@ -200,7 +182,6 @@
          <children>
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="All Tasks" />
             <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="PRIORITY" />
-            <Button contentDisplay="CENTER" layoutX="296.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToNotice" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="NOTICE" />
             <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
                <image>
                   <Image url="@image-removebg-preview.png" />

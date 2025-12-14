@@ -87,6 +87,7 @@ public class HomeViewControl implements Initializable {
     private Map<String, DayOfWeek> dayMap;
     private Timeline timeline; // for real-time updates
     private TaskScheduler selectedTask; // ⭐️ Holds the manually selected task ⭐️
+    private boolean isEditingMode = false; // 🌟 NEW STATE VARIABLE 🌟
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -203,6 +204,11 @@ public class HomeViewControl implements Initializable {
     private String calculateStatus(TaskScheduler task) {
         if (task == null) return "";
 
+        // Assume TaskScheduler has isPaused() method
+        if (task.isPaused()) {
+            return "PAUSED";
+        }
+        
         if (task.getCurrentStartTime() != null) {
             LocalDateTime now = LocalDateTime.now();
             long totalDurationSeconds = task.getTotalDurationSeconds();
@@ -231,6 +237,99 @@ public class HomeViewControl implements Initializable {
     }
 
     // ----------------------------------------------------
+    // ACTION HANDLERS FOR DASHBOARD BUTTONS
+    // ----------------------------------------------------
+
+    /**
+     * Handles the action for editing the task's title and note detail.
+     */
+    private void editTaskDetails(TaskScheduler task) {
+    	this.selectedTask = task; // Ensure the task is still the selected task
+        isEditingMode = true; // Set mode to editing
+
+        // Populate Fields:
+        titleField.setText(task.getNote());
+        noteField.setText(task.getNoteDetail());
+
+        // Clear time/duration fields when editing only details (optional but safer)
+        monthField.clear(); 
+        dayField.clear();
+        hourField.clear(); 
+        minuteField.clear(); 
+        if (secondsField != null) secondsField.clear();
+
+        // Clear day toggles (optional but safer)
+        for (ToggleButton b : new ToggleButton[]{sunButton, monButton, tueButton, wedButton, thuButton, friButton, satButton}) {
+            if (b != null) {
+                b.setSelected(false);
+            }
+        }
+        selectedDays.clear();
+        
+        // Show the creation pane
+        showScheduleForm(null); // Reuse existing method to show the pane
+    }
+
+    /**
+     * Handles the action for editing the task's start time and duration.
+     */
+    private void editTaskSchedule(TaskScheduler task) {
+    	this.selectedTask = task;
+        isEditingMode = true;
+
+        // Populate ALL Fields:
+        titleField.setText(task.getNote());
+        noteField.setText(task.getNoteDetail()); // details
+        
+        // Time/Duration fields:
+        monthField.setText(String.valueOf(task.getStartHour()));
+        dayField.setText(String.valueOf(task.getStartMinute()));
+        hourField.setText(String.valueOf(task.getDurationHours()));
+        minuteField.setText(String.valueOf(task.getDurationMinutes()));
+        secondsField.setText(String.valueOf(task.getDurationSeconds()));
+
+        // Days (Toggle Buttons):
+        // First, deselect all buttons
+        for (ToggleButton b : new ToggleButton[]{sunButton, monButton, tueButton, wedButton, thuButton, friButton, satButton}) {
+            if (b != null) {
+                b.setSelected(false);
+            }
+        }
+        selectedDays.clear();
+        
+        // Select the recurring days
+        for (String dayId : task.getRecurringDays()) {
+            // Need a way to reliably map dayId string back to the ToggleButton object
+            Node node = createSchedulePane.lookup("#" + dayId);
+            if (node instanceof ToggleButton) {
+                ToggleButton btn = (ToggleButton) node;
+                btn.setSelected(true);
+                selectedDays.add(dayId);
+            }
+        }
+
+        // Show the creation pane
+        showScheduleForm(null);
+    }
+
+    /**
+     * Handles the action for pausing/resuming the task countdown.
+     * Assumes TaskScheduler has isPaused() and setPaused(boolean) methods.
+     */
+    private void toggleTaskPause(TaskScheduler task) {
+        if (task.isPaused()) {
+            task.setPaused(false);
+            showAlert("Task Resumed", task.getNote() + " has been resumed.");
+        } else {
+            task.setPaused(true);
+            showAlert("Task Paused", task.getNote() + " has been paused.");
+        }
+        // Force the dashboard and UI to update immediately
+        updateDashboardMain();
+        updateTaskUI(); 
+    }
+    
+    // ----------------------------------------------------
     // TASK MONITORING LOGIC
     // ----------------------------------------------------
 
@@ -242,6 +341,11 @@ public class HomeViewControl implements Initializable {
         if (GlobalData.schedules == null) return;
 
         for (TaskScheduler task : GlobalData.schedules) {
+            
+            // ⭐ Skip processing if the task is currently paused
+            if (task.isPaused()) {
+                continue;
+            }
 
             // 1. Check if the task is due to START now
             if (task.getCurrentStartTime() == null) {
@@ -300,8 +404,10 @@ public class HomeViewControl implements Initializable {
         int tasksFound = 0;
 
         taskMenuTwo.getChildren().clear();
-
-        for (TaskScheduler task : GlobalData.schedules) {
+        
+        // Iterate backwards to put newest tasks at the top of the VBox (if you want LIFO display)
+        for (int i = GlobalData.schedules.size() - 1; i >= 0; i--) {
+            TaskScheduler task = GlobalData.schedules.get(i);
             String taskName = task.getNote();
 
             if (taskName.toLowerCase().contains(lowerCaseQuery) || lowerCaseQuery.isEmpty()) {
@@ -332,7 +438,11 @@ public class HomeViewControl implements Initializable {
 
                 // Set status text
                 String statusText;
-                if (task.getCurrentStartTime() != null) {
+                // Handle paused state if TaskScheduler supports it
+                if (task.isPaused()) {
+                    statusText = "PAUSED";
+                    timeLabel.setStyle("-fx-text-fill: blue; -fx-font-weight: bold;");
+                } else if (task.getCurrentStartTime() != null) {
                     // Running/Time's Up status
                     LocalDateTime now = LocalDateTime.now();
                     long totalDurationSeconds = (task.getDurationHours() * 3600) +
@@ -359,8 +469,8 @@ public class HomeViewControl implements Initializable {
                 timeLabel.setText(statusText);
 
                 // -----------------Option Menu per Task ------------------------------------------------------------------------------------------------------------------------------------------
-                MenuButton optionsMenu = new MenuButton();
-                optionsMenu.setStyle("-fx-font-size: 12px; -fx-background-color: TRANSPARENT ; -fx-background-radius: 50px;");
+                MenuButton optionsMenu = new MenuButton("⋮");
+                optionsMenu.setStyle("-fx-font-size: 20px; -fx-background-color: TRANSPARENT ; -fx-background-radius: 50px;");
 
                 //INSIDE OF MENU BUTTON
                 MenuItem prioItem = new MenuItem("Add Priority");
@@ -454,9 +564,14 @@ public class HomeViewControl implements Initializable {
         // Timer Label
         Label timerLabel = new Label();
         String timerText;
+        String timerStyle;
 
-        // Check if the task is currently running (live countdown)
-        if (task.getCurrentStartTime() != null) {
+        // Check for Paused State first
+        if (task.isPaused()) {
+             timerText = "Status: PAUSED";
+             timerStyle = "-fx-font-size: 24px; -fx-text-fill: blue; -fx-font-weight: bold;";
+        } else if (task.getCurrentStartTime() != null) {
+            // Running/Time's Up status
             LocalDateTime now = LocalDateTime.now();
             long totalDurationSeconds = (task.getDurationHours() * 3600) +
                                         (task.getDurationMinutes() * 60) +
@@ -465,22 +580,23 @@ public class HomeViewControl implements Initializable {
 
             if (secondsLeft <= 0) {
                 timerText = "Status: TIME'S UP!";
-                timerLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: orange; -fx-font-weight: bold;");
+                timerStyle = "-fx-font-size: 24px; -fx-text-fill: orange; -fx-font-weight: bold;";
             } else {
                 long hrs = secondsLeft / 3600;
                 long mins = (secondsLeft % 3600) / 60;
                 long secs = secondsLeft % 60;
 
                 timerText = String.format("RUNNING: %02d:%02d:%02d left", hrs, mins, secs);
-                timerLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: red; -fx-font-weight: bold;");
+                timerStyle = "-fx-font-size: 24px; -fx-text-fill: red; -fx-font-weight: bold;";
             }
         } else {
             // Task is scheduled, show time until next start
             timerText = "Next Start: " + calculateTimeRemaining(task);
-            timerLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: green;");
+            timerStyle = "-fx-font-size: 24px; -fx-text-fill: green;";
         }
 
         timerLabel.setText(timerText);
+        timerLabel.setStyle(timerStyle);
         timerLabel.setLayoutX(20);
         timerLabel.setLayoutY(70);
 
@@ -496,8 +612,45 @@ public class HomeViewControl implements Initializable {
         noteLabel.setPrefHeight(400);
         noteLabel.setLayoutX(20);
         noteLabel.setLayoutY(150);
+        // FIX: Top-Left alignment for details text
+        noteLabel.setAlignment(Pos.TOP_LEFT);
 
-        dashBoardMain.getChildren().addAll(titleLabel, timerLabel, noteHeader, noteLabel);
+        
+        // --- NEW ACTION BUTTONS (Positioned on the right side) ---
+        
+        double dashboardWidth = 800; // Assuming dashBoardMain width is around 800
+        double buttonSize = 40;
+        double spacing = 10;
+        double xPosition = dashboardWidth - buttonSize - 20; // Right edge minus padding
+
+        // 1. Edit Details Button (Top)
+        Button editDetailsBtn = new Button("✍️");
+        editDetailsBtn.setPrefSize(buttonSize, buttonSize);
+        editDetailsBtn.setLayoutX(800);
+        editDetailsBtn.setLayoutY(20); 
+        editDetailsBtn.setOnAction(e -> editTaskDetails(task));
+
+        // 2. Edit Schedule Button (Middle)
+        Button editScheduleBtn = new Button("⏰");
+        editScheduleBtn.setPrefSize(buttonSize, buttonSize);
+        editScheduleBtn.setLayoutX(800);
+        editScheduleBtn.setLayoutY(20 + buttonSize + spacing);
+        editScheduleBtn.setOnAction(e -> editTaskSchedule(task));
+
+        // 3. Pause/Resume Button (Bottom)
+        Button pauseResumeBtn = new Button(task.isPaused() ? "▶️" : "⏸️");
+        pauseResumeBtn.setPrefSize(buttonSize, buttonSize);
+        pauseResumeBtn.setLayoutX(800);
+        pauseResumeBtn.setLayoutY(20 + (buttonSize + spacing) * 2);
+        pauseResumeBtn.setOnAction(e -> toggleTaskPause(task));
+
+        dashBoardMain.getChildren().addAll(titleLabel, timerLabel, noteHeader, noteLabel,
+                                          editDetailsBtn, editScheduleBtn, pauseResumeBtn);
+        
+        // Add this line after creating each button:
+        editDetailsBtn.getStyleClass().add("dashboard-action-button");
+        editScheduleBtn.getStyleClass().add("dashboard-action-button");
+        pauseResumeBtn.getStyleClass().add("dashboard-action-button");
     }
 
     /**
@@ -586,6 +739,9 @@ public class HomeViewControl implements Initializable {
                 }
             }
             selectedDays.clear();
+            
+            // 🌟 FIX: Reset Editing Mode 🌟
+            isEditingMode = false;
         }
     }
 
@@ -602,7 +758,7 @@ public class HomeViewControl implements Initializable {
         }
     }
 
-    /** Creates a TaskScheduler object and saves it to GlobalData. */
+    /** Creates a TaskScheduler object or Updates the selected task. */
     @FXML
     public void saveSchedule(ActionEvent event) {
     	String title = titleField.getText().trim();
@@ -628,26 +784,54 @@ public class HomeViewControl implements Initializable {
                 return;
             }
 
-            TaskScheduler newSchedule = new TaskScheduler(
-                title,
-                startHour,
-                startMinute,
-                durationHours,
-                durationMinutes,
-                durationSeconds,
-                noteDetailText,
-                new ArrayList<>(selectedDays)
-            );
+            TaskScheduler taskToSaveOrUpdate;
+        
+            // 🌟 FIX: Check for Edit Mode (UPDATE) or Create New 🌟
+            if (isEditingMode && this.selectedTask != null) {
+                // --- UPDATE EXISTING TASK ---
+                taskToSaveOrUpdate = this.selectedTask;
+                
+                // Apply all changes using setters (Assumes setters are in TaskScheduler.java)
+                taskToSaveOrUpdate.setNote(title);
+                taskToSaveOrUpdate.setNoteDetail(noteDetailText);
+                taskToSaveOrUpdate.setStartHour(startHour);
+                taskToSaveOrUpdate.setStartMinute(startMinute);
+                taskToSaveOrUpdate.setDurationHours(durationHours);
+                taskToSaveOrUpdate.setDurationMinutes(durationMinutes);
+                taskToSaveOrUpdate.setDurationSeconds(durationSeconds);
+                taskToSaveOrUpdate.setRecurringDays(new ArrayList<>(selectedDays));
+                
+                // Reset running timer if the schedule was changed
+                taskToSaveOrUpdate.setCurrentStartTime(null);
+                
+                showAlert("Task Updated", title + " has been successfully updated.");
 
-            GlobalData.schedules.add(newSchedule);
-            GlobalData.taskNames.add(title);
+                // Reset editing mode
+                isEditingMode = false;
+                
+            } else {
+                // --- CREATE NEW TASK ---
+                taskToSaveOrUpdate = new TaskScheduler(
+                    title,
+                    startHour,
+                    startMinute,
+                    durationHours,
+                    durationMinutes,
+                    durationSeconds,
+                    noteDetailText,
+                    new ArrayList<>(selectedDays)
+                );
+
+                GlobalData.schedules.add(taskToSaveOrUpdate);
+                GlobalData.taskNames.add(title);
+                showAlert("Task Created", title + " has been successfully scheduled.");
+            }
             
-            TaskDatabase.saveTasks(); //for database----------------------------------------------------------------------
+            TaskDatabase.saveTasks(); // Save changes to the database
 
-            // Immediately select the new task for dashboard display
-            this.selectedTask = newSchedule;
-
-            displayTaskOnDashboard(newSchedule);
+            // Immediately select the task for dashboard display
+            this.selectedTask = taskToSaveOrUpdate;
+            displayTaskOnDashboard(this.selectedTask);
 
             loadSavedTasks();
             hideScheduleForm(event);
@@ -735,43 +919,6 @@ public class HomeViewControl implements Initializable {
 	// SCENE SWITCHING METHODS
 	// ----------------------------------------------------
 
-	public void switchToHomeView (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("homeView.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public void switchToHomeSchedule (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("homeSched.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public void switchToSchoolSchedule (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("schoolView.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	public void switchToWorkSchedule (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("workSchedule.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	public void switchToDailyPlan (ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("dailyPlan.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 	public void switchPrioTask (ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("prioTask.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();

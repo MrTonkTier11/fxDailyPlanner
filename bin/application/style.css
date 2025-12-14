@@ -45,3 +45,15 @@
 /* In the controller, you are using: source.getStyleClass().add("selected-day"); */
 /* If you stick with ToggleButton, the controller logic should primarily rely on the 
    ToggleButton's built-in `:selected` state, not manually managing the 'selected-day' style class. */
+   
+   .dashboard-action-button{
+	-fx-background-color: #a2a2a2;
+	-fx-border-radius: 20;
+	-fx-background-radius: 80;	
+   }
+   
+   
+   
+   
+   
+   
