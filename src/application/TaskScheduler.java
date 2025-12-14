@@ -15,6 +15,8 @@ public class TaskScheduler {
 	    private LocalDateTime currentStartTime; 
 	    private String noteDetail; 
 	    private boolean alarmTriggered = false; 
+	    private boolean priority;
+
 
 	    public TaskScheduler(String note, int startHour, int startMinute, 
 	                         int durationHours, int durationMinutes, int durationSeconds, 
@@ -40,6 +42,7 @@ public class TaskScheduler {
 	    public List<String> getRecurringDays() { return recurringDays; }
 	    public LocalDateTime getCurrentStartTime() { return currentStartTime; }
 	    public String getNoteDetail() { return noteDetail; }
+	    public boolean isPriority() { return priority; }
 
 	    public long getTotalDurationSeconds() {
 	        return durationHours * 3600L  
@@ -60,5 +63,8 @@ public class TaskScheduler {
 	        if (currentStartTime != null) {
 	            this.alarmTriggered = false;
 	        }
+	    }
+	    public void setPriority(boolean priority) {
+	        this.priority = priority;
 	    }
 	}

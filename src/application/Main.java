@@ -11,14 +11,26 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
+            // Load csv
+            TaskDatabase.loadTasks();
+
             Parent root = FXMLLoader.load(getClass().getResource("homeView.fxml"));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            
+            scene.getStylesheets().add(
+                    getClass().getResource("style.css").toExternalForm()
+            );
+
             primaryStage.setTitle("JavaFX Template App");
             primaryStage.setScene(scene);
+
+            // save 
+            primaryStage.setOnCloseRequest(event -> {
+                TaskDatabase.saveTasks();
+            });
+
             primaryStage.show();
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

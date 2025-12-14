@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+
 public class HomeViewControl implements Initializable {
 
     private List<String> selectedDays = new ArrayList<>();
@@ -366,6 +367,8 @@ public class HomeViewControl implements Initializable {
                 prioItem.setOnAction(e -> {
                     if (!GlobalData.prioTasks.contains(task)) {
                         GlobalData.prioTasks.add(task);
+                        task.setPriority(true);            // Set priority
+                        TaskDatabase.saveTasks();          // Save changes
                         showAlert("Priority Added", task.getNote() + " is now a priority task!");
                     } else {
                         showAlert("Already Priority", "This task is already marked as priority.");
@@ -379,6 +382,8 @@ public class HomeViewControl implements Initializable {
                     GlobalData.prioTasks.remove(task);
                     taskMenuTwo.getChildren().remove(taskRow);
 
+                    TaskDatabase.saveTasks();//database
+                    
                     if (task == selectedTask) {
                         selectedTask = null;
                         dashBoardMain.getChildren().clear();
@@ -636,6 +641,8 @@ public class HomeViewControl implements Initializable {
 
             GlobalData.schedules.add(newSchedule);
             GlobalData.taskNames.add(title);
+            
+            TaskDatabase.saveTasks(); //for database----------------------------------------------------------------------
 
             // Immediately select the new task for dashboard display
             this.selectedTask = newSchedule;
