@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeViewControl">
    <children>
-      <Pane id="dashBoard" layoutX="412.0" layoutY="10.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+      <Pane id="dashBoard" layoutX="431.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="19.33333333333337" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="-13.666666666666515" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="123.0" styleClass="hbox" stylesheets="@style.css">
                <children>
@@ -172,6 +172,15 @@
         </Pane>
     </children>
 </Pane>
+            <Button contentDisplay="CENTER" layoutX="103.0" layoutY="16.0" mnemonicParsing="false" onAction="#printTodoList" prefHeight="54.0" prefWidth="70.0" text="PRINT">
+               <styleClass>
+                  <String fx:value="icons-bilog" />
+                  <String fx:value="pane" />
+               </styleClass>
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
          
             </children>
          <effect>

@@ -18,7 +18,7 @@ public class TaskScheduler {
 	    private boolean alarmTriggered = false; 
 	    private boolean priority;
 	    
-	    // 🌟 NEW FIELD FOR PAUSE/RESUME FUNCTIONALITY 🌟
+	    //  NEW FIELD FOR PAUSE/RESUME FUNCTIONALITY 
         private boolean isPaused = false;
         // private long remainingDurationSeconds = -1; // Added if you needed complex pause/resume logic
 
@@ -61,7 +61,7 @@ public class TaskScheduler {
 
 	    
 	    
-	    // 🌟 NEW: Paused state getter
+	    //  NEW: Paused state getter
         public boolean isPaused() { return isPaused; }	    
 
 	    public long getTotalDurationSeconds() {
@@ -89,7 +89,7 @@ public class TaskScheduler {
 	        this.priority = priority;
 	    }
 	    
-	    // 🌟 NEW: Paused state setter
+	    //  NEW: Paused state setter
         public void setPaused(boolean isPaused) {
             this.isPaused = isPaused;
             // Optionally, reset currentStartTime when pausing to stop the timer

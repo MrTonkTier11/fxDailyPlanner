@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PriorityController">
+   <children>
+      <Pane id="dashBoard" layoutX="412.0" layoutY="10.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Pane layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
+               <children>
+                  <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
+                  <Pane id="menuPane" fx:id="taskwindow" layoutX="13.0" layoutY="20.0" prefHeight="575.0" prefWidth="751.0" styleClass="pane" stylesheets="@style.css">
+                     <children>
+                        <Text fx:id="detail" fill="#fff9f9" layoutX="197.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TASKS WITH PRIORITY WILL APPEAR HERE!" textAlignment="CENTER" wrappingWidth="357.0">
+                           <font>
+                              <Font name="SansSerif Italic" size="45.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="17.0" layoutY="6.0" prefHeight="66.0" prefWidth="783.0" styleClass="itsura-ng-buttonz" stylesheets="@style.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="235.0" layoutY="5.0" styleClass="header-text" text="PRIORITY TASKS" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="39.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+         <effect>
+            <Blend opacity="0.13" />
+         </effect>
+      </Pane>
+      <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Button contentDisplay="CENTER" layoutX="109.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="167.0" styleClass="icons-bilog" text="PRIORITY">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Button>
+            <Button contentDisplay="CENTER" layoutX="22.0" layoutY="636.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="48.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="icons-bilog" />
+                  <String fx:value="color-specific-shade" />
+               </styleClass>
+            </Button>
+            <Button layoutX="8.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="58.0" prefWidth="98.0" styleClass="icons-bilog">
+               <graphic>
+                  <ImageView disable="true" fitHeight="54.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <VBox fx:id="prioListBox" layoutX="29.0" layoutY="98.0" prefHeight="517.0" prefWidth="338.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

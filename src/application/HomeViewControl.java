@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,12 +12,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,6 +32,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Separator;
 import javafx.geometry.Pos;
 import javafx.application.Platform;
 
@@ -35,13 +41,28 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
+//imports for printing
+import javafx.print.PrinterJob;
+import javafx.scene.layout.Region;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 
 public class HomeViewControl implements Initializable {
@@ -914,7 +935,168 @@ public class HomeViewControl implements Initializable {
 
         return String.format("Starts in: %dD %02d:%02d:%02d", days, hours, minutes, seconds);
     }
+    
+    //
+    //PRINTING METHOD
+    //
+ 
+    @FXML
+    private void printTodoList() {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job == null) return;
 
+        if (!job.showPrintDialog(null)) return;
+
+        VBox page = buildTodoPrintPage();
+
+        Group printableGroup = new Group(page);
+        printableGroup.applyCss();
+        printableGroup.layout();
+
+        Printer printer = job.getPrinter();
+        PageLayout pageLayout = printer.createPageLayout(
+                Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+
+        double scaleX = pageLayout.getPrintableWidth() / printableGroup.getBoundsInParent().getWidth();
+        double scaleY = pageLayout.getPrintableHeight() / printableGroup.getBoundsInParent().getHeight();
+        double scale = Math.min(scaleX, scaleY);
+
+        printableGroup.getTransforms().add(new Scale(scale, scale));
+
+        boolean success = job.printPage(pageLayout, printableGroup);
+        if (success) job.endJob();
+
+        printableGroup.getTransforms().clear();
+    }
+
+    // =====================================
+    // BUILD PRINT PAGE FOR TASKS AND PRIORITY TASKS
+    // =====================================
+    private VBox buildTodoPrintPage() {
+        VBox page = new VBox(20);
+        page.setPadding(new Insets(40));
+        page.setPrefSize(595, 842); // A4 size
+        page.setStyle("-fx-background-color: white;");
+
+        // TITLE
+        Label title = new Label("TO DO LIST");
+        title.setStyle("-fx-font-size: 42px; -fx-font-weight: bold;");
+        title.setAlignment(Pos.CENTER);
+        title.setMaxWidth(Double.MAX_VALUE);
+
+        // DATE - centered
+        LocalDate today = LocalDate.now();
+        String formattedDate = today.format(DateTimeFormatter.ofPattern("MMMM - dd - yyyy"));
+        Label dateLabel = new Label("DATE: " + formattedDate);
+        dateLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        dateLabel.setAlignment(Pos.CENTER);
+        dateLabel.setMaxWidth(Double.MAX_VALUE);
+
+        page.getChildren().addAll(title, dateLabel);
+
+        // SECTIONS CONTAINER
+        HBox sections = new HBox(30);
+
+        // TASKS COLUMN
+        VBox tasksColumn = new VBox(10);
+        tasksColumn.setPrefWidth(270);
+        tasksColumn.getChildren().add(sectionHeader("TO DO TASKS"));
+
+        if (GlobalData.schedules.isEmpty()) {
+            tasksColumn.getChildren().add(new Label("No tasks assigned yet."));
+        } else {
+            for (TaskScheduler task : GlobalData.schedules) {
+                VBox taskRow = buildTaskRowWithLine(task);
+                tasksColumn.getChildren().add(taskRow);
+            }
+        }
+
+        // PRIORITY TASKS COLUMN
+        VBox prioColumn = new VBox(10);
+        prioColumn.setPrefWidth(270);
+        prioColumn.getChildren().add(sectionHeader("PRIORITIES"));
+
+        List<TaskScheduler> prioTasks = GlobalData.getPriorityTasks();
+        if (prioTasks.isEmpty()) {
+            prioColumn.getChildren().add(new Label("No priority tasks assigned yet."));
+        } else {
+            for (TaskScheduler task : prioTasks) {
+                VBox taskRow = buildTaskRowWithLine(task);
+                prioColumn.getChildren().add(taskRow);
+            }
+        }
+
+        sections.getChildren().addAll(tasksColumn, prioColumn);
+        page.getChildren().add(sections);
+
+        return page;
+    }
+
+    // =====================================
+    // BUILD INDIVIDUAL TASK ROW WITH SEPARATOR
+    // =====================================
+    private VBox buildTaskRowWithLine(TaskScheduler task) {
+        VBox container = new VBox(5);
+
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.TOP_LEFT);
+
+        // CHECKBOX
+        CheckBox check = new CheckBox();
+
+        // TASK NOTE
+        Label noteLabel = new Label(task.getNote());
+        noteLabel.setStyle("-fx-font-weight: bold;");
+        noteLabel.setWrapText(true);
+        noteLabel.setPrefWidth(200);
+
+        row.getChildren().addAll(check, noteLabel);
+
+        container.getChildren().add(row);
+
+        // DETAILS + DEADLINE
+        String detailsText = "";
+        if (task.getNoteDetail() != null && !task.getNoteDetail().isEmpty()) {
+            detailsText += task.getNoteDetail();
+        }
+        if (task.getCurrentStartTime() != null) {
+            LocalDateTime deadline = task.getCurrentStartTime().plusSeconds(task.getTotalDurationSeconds());
+            if (!detailsText.isEmpty()) detailsText += "\n";
+            detailsText += "Deadline: " + deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        }
+        if (!detailsText.isEmpty()) {
+            Label detailsLabel = new Label(detailsText);
+            detailsLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #555;");
+            detailsLabel.setWrapText(true);
+            detailsLabel.setPadding(new Insets(0, 0, 0, 20)); // indent under note
+            container.getChildren().add(detailsLabel);
+        }
+
+        // HORIZONTAL LINE SEPARATOR
+        Line separator = new Line(0, 0, 270, 0); // width matches column
+        separator.setStyle("-fx-stroke: gray; -fx-stroke-width: 1;");
+        container.getChildren().add(separator);
+
+        return container;
+    }
+
+    // =====================================
+    // SECTION HEADER
+    // =====================================
+    private Label sectionHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle(
+                "-fx-font-weight: bold;" +
+                "-fx-border-color: black;" +
+                "-fx-border-radius: 5;" +
+                "-fx-padding: 4 8;"
+        );
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    
 	// ----------------------------------------------------
 	// SCENE SWITCHING METHODS
 	// ----------------------------------------------------
