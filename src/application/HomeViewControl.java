@@ -969,22 +969,20 @@ public class HomeViewControl implements Initializable {
         printableGroup.getTransforms().clear();
     }
 
-    // =====================================
-    // BUILD PRINT PAGE FOR TASKS AND PRIORITY TASKS
-    // =====================================
+    // --------------Print Method--------------------------------
     private VBox buildTodoPrintPage() {
         VBox page = new VBox(20);
         page.setPadding(new Insets(40));
         page.setPrefSize(595, 842); // A4 size
         page.setStyle("-fx-background-color: white;");
 
-        // TITLE
+        // Title
         Label title = new Label("TO DO LIST");
         title.setStyle("-fx-font-size: 42px; -fx-font-weight: bold;");
         title.setAlignment(Pos.CENTER);
         title.setMaxWidth(Double.MAX_VALUE);
 
-        // DATE - centered
+        // Date
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofPattern("MMMM - dd - yyyy"));
         Label dateLabel = new Label("DATE: " + formattedDate);
@@ -993,11 +991,10 @@ public class HomeViewControl implements Initializable {
         dateLabel.setMaxWidth(Double.MAX_VALUE);
 
         page.getChildren().addAll(title, dateLabel);
-
-        // SECTIONS CONTAINER
+        
         HBox sections = new HBox(30);
 
-        // TASKS COLUMN
+        // To do Tasks
         VBox tasksColumn = new VBox(10);
         tasksColumn.setPrefWidth(270);
         tasksColumn.getChildren().add(sectionHeader("TO DO TASKS"));
@@ -1011,7 +1008,7 @@ public class HomeViewControl implements Initializable {
             }
         }
 
-        // PRIORITY TASKS COLUMN
+        // Priorities 
         VBox prioColumn = new VBox(10);
         prioColumn.setPrefWidth(270);
         prioColumn.getChildren().add(sectionHeader("PRIORITIES"));
@@ -1032,19 +1029,16 @@ public class HomeViewControl implements Initializable {
         return page;
     }
 
-    // =====================================
-    // BUILD INDIVIDUAL TASK ROW WITH SEPARATOR
-    // =====================================
     private VBox buildTaskRowWithLine(TaskScheduler task) {
         VBox container = new VBox(5);
 
         HBox row = new HBox(10);
         row.setAlignment(Pos.TOP_LEFT);
 
-        // CHECKBOX
+   
         CheckBox check = new CheckBox();
 
-        // TASK NOTE
+       //Task note
         Label noteLabel = new Label(task.getNote());
         noteLabel.setStyle("-fx-font-weight: bold;");
         noteLabel.setWrapText(true);
@@ -1054,7 +1048,7 @@ public class HomeViewControl implements Initializable {
 
         container.getChildren().add(row);
 
-        // DETAILS + DEADLINE
+        // get notes and deadline
         String detailsText = "";
         if (task.getNoteDetail() != null && !task.getNoteDetail().isEmpty()) {
             detailsText += task.getNoteDetail();
@@ -1080,9 +1074,7 @@ public class HomeViewControl implements Initializable {
         return container;
     }
 
-    // =====================================
     // SECTION HEADER
-    // =====================================
     private Label sectionHeader(String text) {
         Label label = new Label(text);
         label.setStyle(
