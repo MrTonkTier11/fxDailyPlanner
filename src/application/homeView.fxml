@@ -16,26 +16,45 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeViewControl">
    <children>
-      <Pane id="dashBoard" layoutX="431.0" prefHeight="701.0" prefWidth="863.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="19.33333333333337" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="-13.666666666666515" AnchorPane.topAnchor="0.0">
+      <Pane id="dashBoard" layoutX="425.0" layoutY="14.0" prefHeight="686.0" prefWidth="854.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="425.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="14.0">
          <children>
-            <HBox alignment="CENTER" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="123.0" styleClass="hbox" stylesheets="@style.css">
+            <HBox alignment="CENTER_LEFT" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="297.0" spacing="12.0" styleClass="hbox" stylesheets="@style.css">
                <children>
-                  <Pane prefHeight="77.0" prefWidth="87.0">
-                     <children>
-                        <Button id="addTaskButton" contentDisplay="CENTER" layoutX="-4.0" layoutY="1.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="70.0" text="ADD">
-                           <styleClass>
-                              <String fx:value="icons-bilog" />
-                              <String fx:value="pane" />
-                           </styleClass>
-                           <font>
-                              <Font name="System Bold Italic" size="12.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </Pane>
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#printTodoList" prefHeight="54.0" prefWidth="70.0">
+                     <styleClass>
+                        <String fx:value="icons-bilog" />
+                        <String fx:value="pane" />
+                     </styleClass>
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@print.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button id="addTaskButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="54.0" prefWidth="70.0">
+                     <styleClass>
+                        <String fx:value="icons-bilog" />
+                        <String fx:value="pane" />
+                     </styleClass>
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
-            <Pane fx:id="dashBoardMain" layoutX="14.0" layoutY="79.0" prefHeight="607.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
+            <Pane fx:id="dashBoardMain" layoutX="14.0" layoutY="79.0" prefHeight="597.0" prefWidth="783.0" styleClass="itsura-ng-buttonz">
                <children>
                   <Button contentDisplay="CENTER" layoutX="530.0" layoutY="62.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0" styleClass="icons-bilog" />
                </children>
@@ -172,25 +191,23 @@
         </Pane>
     </children>
 </Pane>
-            <Button contentDisplay="CENTER" layoutX="103.0" layoutY="16.0" mnemonicParsing="false" onAction="#printTodoList" prefHeight="54.0" prefWidth="70.0" text="PRINT">
-               <styleClass>
-                  <String fx:value="icons-bilog" />
-                  <String fx:value="pane" />
-               </styleClass>
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
          
             </children>
          <effect>
             <Blend opacity="0.13" />
          </effect>
       </Pane>
-      <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="701.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
+      <Pane id="menuPane" layoutX="8.0" layoutY="10.0" prefHeight="693.0" prefWidth="395.0" styleClass="pane" stylesheets="@style.css" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="10.0">
          <children>
             <Button contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#showScheduleForm" prefHeight="58.0" prefWidth="182.0" styleClass="icons-bilog" text="All Tasks" />
-            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog" text="PRIORITY" />
+            <Button contentDisplay="CENTER" layoutX="201.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchPrioTask" prefHeight="58.0" prefWidth="89.0" styleClass="icons-bilog">
+               <graphic>
+                  <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@prio.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <ImageView disable="true" fitHeight="50.0" fitWidth="61.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="icons-bilog">
                <image>
                   <Image url="@image-removebg-preview.png" />

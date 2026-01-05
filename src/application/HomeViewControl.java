@@ -761,7 +761,7 @@ public class HomeViewControl implements Initializable {
             }
             selectedDays.clear();
             
-            // 🌟 FIX: Reset Editing Mode 🌟
+            //  FIX: Reset Editing Mode 
             isEditingMode = false;
         }
     }
@@ -807,7 +807,7 @@ public class HomeViewControl implements Initializable {
 
             TaskScheduler taskToSaveOrUpdate;
         
-            // 🌟 FIX: Check for Edit Mode (UPDATE) or Create New 🌟
+            //  FIX: Check for Edit Mode (UPDATE) or Create New 
             if (isEditingMode && this.selectedTask != null) {
                 // --- UPDATE EXISTING TASK ---
                 taskToSaveOrUpdate = this.selectedTask;
@@ -936,10 +936,7 @@ public class HomeViewControl implements Initializable {
         return String.format("Starts in: %dD %02d:%02d:%02d", days, hours, minutes, seconds);
     }
     
-    //
-    //PRINTING METHOD
-    //
- 
+    //PRINT METHOD
     @FXML
     private void printTodoList() {
         PrinterJob job = PrinterJob.createPrinterJob();
@@ -968,8 +965,7 @@ public class HomeViewControl implements Initializable {
 
         printableGroup.getTransforms().clear();
     }
-
-    // --------------Print Method--------------------------------
+    //Print page
     private VBox buildTodoPrintPage() {
         VBox page = new VBox(20);
         page.setPadding(new Insets(40));

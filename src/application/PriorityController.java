@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
+
 public class PriorityController implements Initializable {
 
     private Stage stage;
@@ -37,6 +38,7 @@ public class PriorityController implements Initializable {
     }
 
     /** Load all priority tasks in a HomeView-style list */
+    
     public void loadPriorityTasks() {
         prioListBox.getChildren().clear();
 
@@ -53,6 +55,7 @@ public class PriorityController implements Initializable {
 
                 Label timeLabel = new Label();
                 updateTimerLabel(task, timeLabel);
+                
 
                 Button prioBtn = new Button("❌");
                 prioBtn.setStyle("-fx-background-color: #ff4d4d; -fx-font-weight: bold;");

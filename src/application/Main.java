@@ -22,6 +22,7 @@ public class Main extends Application {
 
             primaryStage.setTitle("JavaFX Template App");
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
 
             // save 
             primaryStage.setOnCloseRequest(event -> {

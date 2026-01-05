@@ -15,7 +15,7 @@ public class GlobalData {
     
     public static List<TaskScheduler> getPriorityTasks() {
         return schedules.stream()
-                .filter(TaskScheduler::isPriority)  // Only tasks marked as priority
+                .filter(TaskScheduler::isPriority)  
                 .collect(Collectors.toList());
     }
 }
