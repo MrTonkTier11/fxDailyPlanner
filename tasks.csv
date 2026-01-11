@@ -5,4 +5,4 @@ Task M,11,1,1,1,0,test only,monButton,false
 PrioTask Test,23,12,12,2,0,test it will show in priority window,monButton;tueButton,true
 test3,12,23,0,0,25,dsfrggadsgf,tueButton;wedButton,false
 TESTTT,10,20,0,0,30,TESTTTT,friButton,false
-YEs,10,32,0,0,20,test,friButton,true
+YEs,10,32,0,0,20,test,friButton;satButton,true

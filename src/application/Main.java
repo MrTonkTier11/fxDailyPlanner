@@ -20,7 +20,7 @@ public class Main extends Application {
                     getClass().getResource("style.css").toExternalForm()
             );
 
-            primaryStage.setTitle("JavaFX Template App");
+            primaryStage.setTitle("Daily Planner");
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
 

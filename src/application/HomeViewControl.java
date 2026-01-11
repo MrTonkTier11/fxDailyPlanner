@@ -29,6 +29,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -101,6 +103,11 @@ public class HomeViewControl implements Initializable {
     @FXML private ToggleButton thuButton;
     @FXML private ToggleButton friButton;
     @FXML private ToggleButton satButton;
+    
+    // --- NEW ACTION BUTTONS FROM FXML ---
+    @FXML private Button editDetails;
+    @FXML private Button editSchedule;
+    @FXML private Button pauseResumeTask;
 
     @FXML private Button search;
     @FXML private TextField searchField;
@@ -129,6 +136,10 @@ public class HomeViewControl implements Initializable {
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterTasks(newValue);
             });
+        }
+        // Hide the action buttons until the user selects a task from the list
+        if (taskMenuOne != null) {
+            taskMenuOne.setVisible(false);
         }
         updateDashboardMain();
         startTaskMonitor();
@@ -262,65 +273,77 @@ public class HomeViewControl implements Initializable {
     // ----------------------------------------------------
 
     /**
-     * Handles the action for editing the task's title and note detail.
+     * Edits ONLY Title and Notes. 
+     * Disables the Time, Duration, and Day selection sections.
      */
     private void editTaskDetails(TaskScheduler task) {
-    	this.selectedTask = task; // Ensure the task is still the selected task
-        isEditingMode = true; // Set mode to editing
+        this.selectedTask = task;
+        isEditingMode = true;
 
-        // Populate Fields:
+        // 1. Populate only text fields
         titleField.setText(task.getNote());
         noteField.setText(task.getNoteDetail());
 
-        // Clear time/duration fields when editing only details (optional but safer)
-        monthField.clear(); 
-        dayField.clear();
-        hourField.clear(); 
-        minuteField.clear(); 
-        if (secondsField != null) secondsField.clear();
+        // 2. Lock the scheduling sections so the user can't change them
+        // (Assuming the Panes are children of createSchedulePane)
+        // We use setDisable(true) to make them look "grayed out" or read-only
+        // Show Details, Hide Schedule
+        setTitleNoteSectionVisible(true);
+        setSchedulingSectionsVisible(false);
 
-        // Clear day toggles (optional but safer)
-        for (ToggleButton b : new ToggleButton[]{sunButton, monButton, tueButton, wedButton, thuButton, friButton, satButton}) {
-            if (b != null) {
-                b.setSelected(false);
+        // 3. Show the form
+        showScheduleForm(null);
+    }
+    
+    //helper methods for the three buttons:
+    private void setTitleNoteSectionVisible(boolean visible) {
+        titleField.setVisible(visible);
+        titleField.setManaged(visible);
+        noteField.setVisible(visible);
+        noteField.setManaged(visible);
+        
+        // Also toggle the disabled state based on visibility
+        titleField.setDisable(!visible);
+        noteField.setDisable(!visible);
+    }
+
+    private void setSchedulingSectionsVisible(boolean visible) {
+        Node[] scheduleNodes = {
+            monthField, dayField, hourField, minuteField, secondsField,
+            sunButton, monButton, tueButton, wedButton, thuButton, friButton, satButton
+        };
+
+        for (Node node : scheduleNodes) {
+            if (node != null) {
+                node.setVisible(visible);
+                node.setManaged(visible);
+                node.setDisable(!visible); // If it's hidden, it's also disabled
             }
         }
-        selectedDays.clear();
-        
-        // Show the creation pane
-        showScheduleForm(null); // Reuse existing method to show the pane
     }
 
     /**
-     * Handles the action for editing the task's start time and duration.
+     * Edits ONLY Scheduling (Time, Duration, Days).
+     * Disables the Title and Note fields.
      */
     private void editTaskSchedule(TaskScheduler task) {
-    	this.selectedTask = task;
+        this.selectedTask = task;
         isEditingMode = true;
 
-        // Populate ALL Fields:
-        titleField.setText(task.getNote());
-        noteField.setText(task.getNoteDetail()); // details
-        
-        // Time/Duration fields:
+     // Populate existing time data
         monthField.setText(String.valueOf(task.getStartHour()));
         dayField.setText(String.valueOf(task.getStartMinute()));
         hourField.setText(String.valueOf(task.getDurationHours()));
         minuteField.setText(String.valueOf(task.getDurationMinutes()));
-        secondsField.setText(String.valueOf(task.getDurationSeconds()));
+        if (secondsField != null) secondsField.setText(String.valueOf(task.getDurationSeconds()));
 
-        // Days (Toggle Buttons):
-        // First, deselect all buttons
+        // 2. Reset and Populate Days
         for (ToggleButton b : new ToggleButton[]{sunButton, monButton, tueButton, wedButton, thuButton, friButton, satButton}) {
-            if (b != null) {
-                b.setSelected(false);
-            }
+            if (b != null) b.setSelected(false);
         }
         selectedDays.clear();
         
-        // Select the recurring days
         for (String dayId : task.getRecurringDays()) {
-            // Need a way to reliably map dayId string back to the ToggleButton object
             Node node = createSchedulePane.lookup("#" + dayId);
             if (node instanceof ToggleButton) {
                 ToggleButton btn = (ToggleButton) node;
@@ -329,7 +352,10 @@ public class HomeViewControl implements Initializable {
             }
         }
 
-        // Show the creation pane
+     // ONLY show scheduling info
+        setTitleNoteSectionVisible(false);
+        setSchedulingSectionsVisible(true);
+
         showScheduleForm(null);
     }
 
@@ -570,11 +596,16 @@ public class HomeViewControl implements Initializable {
     private void displayTaskOnDashboard(TaskScheduler task) {
         if (dashBoardMain == null || task == null) {
             if (dashBoardMain != null) dashBoardMain.getChildren().clear();
+            // Hide the top menu if no task is selected
+            if (taskMenuOne != null) taskMenuOne.setVisible(false);
             return;
         }
 
-        // 1. Update the UI
+        // 1. Clear the main area and show the action menu
         dashBoardMain.getChildren().clear();
+        if (taskMenuOne != null) taskMenuOne.setVisible(true);
+
+        // --- RENDER CONTENT LABELS ---
 
         // Title Label
         Label titleLabel = new Label(task.getNote());
@@ -582,22 +613,18 @@ public class HomeViewControl implements Initializable {
         titleLabel.setLayoutX(20);
         titleLabel.setLayoutY(20);
 
-        // Timer Label
+        // Timer Label Logic
         Label timerLabel = new Label();
         String timerText;
         String timerStyle;
 
-        // Check for Paused State first
         if (task.isPaused()) {
              timerText = "Status: PAUSED";
              timerStyle = "-fx-font-size: 24px; -fx-text-fill: blue; -fx-font-weight: bold;";
         } else if (task.getCurrentStartTime() != null) {
-            // Running/Time's Up status
             LocalDateTime now = LocalDateTime.now();
-            long totalDurationSeconds = (task.getDurationHours() * 3600) +
-                                        (task.getDurationMinutes() * 60) +
-                                        task.getDurationSeconds();
-            long secondsLeft = ChronoUnit.SECONDS.between(now, task.getCurrentStartTime().plusSeconds(totalDurationSeconds));
+            long totalSeconds = (task.getDurationHours() * 3600) + (task.getDurationMinutes() * 60) + task.getDurationSeconds();
+            long secondsLeft = ChronoUnit.SECONDS.between(now, task.getCurrentStartTime().plusSeconds(totalSeconds));
 
             if (secondsLeft <= 0) {
                 timerText = "Status: TIME'S UP!";
@@ -606,12 +633,10 @@ public class HomeViewControl implements Initializable {
                 long hrs = secondsLeft / 3600;
                 long mins = (secondsLeft % 3600) / 60;
                 long secs = secondsLeft % 60;
-
                 timerText = String.format("RUNNING: %02d:%02d:%02d left", hrs, mins, secs);
                 timerStyle = "-fx-font-size: 24px; -fx-text-fill: red; -fx-font-weight: bold;";
             }
         } else {
-            // Task is scheduled, show time until next start
             timerText = "Next Start: " + calculateTimeRemaining(task);
             timerStyle = "-fx-font-size: 24px; -fx-text-fill: green;";
         }
@@ -621,7 +646,7 @@ public class HomeViewControl implements Initializable {
         timerLabel.setLayoutX(20);
         timerLabel.setLayoutY(70);
 
-        // Note Detail
+        // Note Details
         Label noteHeader = new Label("Details:");
         noteHeader.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         noteHeader.setLayoutX(20);
@@ -633,46 +658,54 @@ public class HomeViewControl implements Initializable {
         noteLabel.setPrefHeight(400);
         noteLabel.setLayoutX(20);
         noteLabel.setLayoutY(150);
-        // FIX: Top-Left alignment for details text
         noteLabel.setAlignment(Pos.TOP_LEFT);
 
+        // Add all labels to the dashboard
+        dashBoardMain.getChildren().addAll(titleLabel, timerLabel, noteHeader, noteLabel);
+
+        // --- CONFIGURE THE NEW ACTION BUTTONS ---
+        // 1. Edit Details Action
+        //editDetails.setText("Edit Info"); // Or use a graphic/icon
+        editDetails.setGraphic(createIcon("edit-info.png")); // Your filename here
+        editDetails.setOnAction(e -> editTaskDetails(task));
+
+
+        // 2. Edit Schedule Action
+        //editSchedule.setText("Schedule");
+        editSchedule.setGraphic(createIcon("edit-schedule.png"));
+        editSchedule.setOnAction(e -> editTaskSchedule(task));
+
+        // 3. Pause/Resume Action
+        // Update button text based on current state
+        //pauseResumeTask.setText(task.isPaused() ? "Resume" : "Pause");
+        String statusIcon = task.isPaused() ? "resume.png" : "pause.png";
+        pauseResumeTask.setGraphic(createIcon(statusIcon));
+        pauseResumeTask.setOnAction(e -> {
+            toggleTaskPause(task);
+            // Immediately refresh the dashboard and button text after toggling
+            displayTaskOnDashboard(task); 
+        });
         
-        // --- NEW ACTION BUTTONS (Positioned on the right side) ---
         
-        double dashboardWidth = 800; // Assuming dashBoardMain width is around 800
-        double buttonSize = 40;
-        double spacing = 10;
-        double xPosition = dashboardWidth - buttonSize - 20; // Right edge minus padding
-
-        // 1. Edit Details Button (Top)
-        Button editDetailsBtn = new Button("✍️");
-        editDetailsBtn.setPrefSize(buttonSize, buttonSize);
-        editDetailsBtn.setLayoutX(800);
-        editDetailsBtn.setLayoutY(20); 
-        editDetailsBtn.setOnAction(e -> editTaskDetails(task));
-
-        // 2. Edit Schedule Button (Middle)
-        Button editScheduleBtn = new Button("⏰");
-        editScheduleBtn.setPrefSize(buttonSize, buttonSize);
-        editScheduleBtn.setLayoutX(800);
-        editScheduleBtn.setLayoutY(20 + buttonSize + spacing);
-        editScheduleBtn.setOnAction(e -> editTaskSchedule(task));
-
-        // 3. Pause/Resume Button (Bottom)
-        Button pauseResumeBtn = new Button(task.isPaused() ? "▶️" : "⏸️");
-        pauseResumeBtn.setPrefSize(buttonSize, buttonSize);
-        pauseResumeBtn.setLayoutX(800);
-        pauseResumeBtn.setLayoutY(20 + (buttonSize + spacing) * 2);
-        pauseResumeBtn.setOnAction(e -> toggleTaskPause(task));
-
-        dashBoardMain.getChildren().addAll(titleLabel, timerLabel, noteHeader, noteLabel,
-                                          editDetailsBtn, editScheduleBtn, pauseResumeBtn);
-        
-        // Add this line after creating each button:
-        editDetailsBtn.getStyleClass().add("dashboard-action-button");
-        editScheduleBtn.getStyleClass().add("dashboard-action-button");
-        pauseResumeBtn.getStyleClass().add("dashboard-action-button");
     }
+    /**
+     * Helper method to create formatted ImageViews
+     */
+    private ImageView createIcon(String iconName) {
+        try {
+            Image img = new Image(getClass().getResourceAsStream(iconName));
+            ImageView view = new ImageView(img);
+            view.setFitHeight(50);
+            view.setFitWidth(50);
+            view.setPreserveRatio(true);
+            return view;
+        } catch (Exception e) {
+            System.out.println("Could not load icon: " + iconName);
+            return null;
+        }
+    
+    }
+         
 
     /**
      * Updates dashBoardMain. Prioritizes displaying the user's manually selected task.
@@ -736,6 +769,13 @@ public class HomeViewControl implements Initializable {
     @FXML
     public void showScheduleForm(ActionEvent event) {
         if (createSchedulePane != null) {
+        	// If event is not null, it means the user clicked the "+" button, not an edit button
+            if (event != null) {
+                setTitleNoteSectionVisible(true);
+                setSchedulingSectionsVisible(true);
+                isEditingMode = false; 
+                // clear fields here if needed
+            }        	
             createSchedulePane.setVisible(true);
             createSchedulePane.toFront();
         }
@@ -745,7 +785,11 @@ public class HomeViewControl implements Initializable {
     public void hideScheduleForm(ActionEvent event) {
         if (createSchedulePane != null) {
             createSchedulePane.setVisible(false);
-
+            // RE-ENABLE EVERYTHING for the next use
+            setTitleNoteSectionVisible(true);
+            setSchedulingSectionsVisible(true);
+            isEditingMode = false;
+            
             titleField.clear();
             noteField.clear();
             monthField.clear();
@@ -782,87 +826,95 @@ public class HomeViewControl implements Initializable {
     /** Creates a TaskScheduler object or Updates the selected task. */
     @FXML
     public void saveSchedule(ActionEvent event) {
-    	String title = titleField.getText().trim();
-    	String noteDetailText = noteField.getText().trim();
+        // 1. Get Title and Note (Use existing if field is disabled)
+        String title = titleField.isDisabled() ? selectedTask.getNote() : titleField.getText().trim();
+        String noteDetailText = noteField.isDisabled() ? selectedTask.getNoteDetail() : noteField.getText().trim();
 
         try {
+            int startHour, startMinute, durationHours, durationMinutes, durationSeconds;
+            List<String> days;
 
-            int startHour = Integer.parseInt(monthField.getText().trim());
-            int startMinute = Integer.parseInt(dayField.getText().trim());
-
-            int durationHours = Integer.parseInt(hourField.getText().trim());
-            int durationMinutes = Integer.parseInt(minuteField.getText().trim());
-
-            int durationSeconds = secondsField != null && !secondsField.getText().trim().isEmpty() ? Integer.parseInt(secondsField.getText().trim()) : 0;
-
-            if (title.isEmpty() || selectedDays.isEmpty()) {
-                showAlert("Input Error", "Please enter a title and select at least one day.");
-                return;
-            }
-
-            if (startHour < 0 || startHour > 23 || startMinute < 0 || startMinute > 59) {
-                showAlert("Input Error", "Start Hour must be 0-23 and Minute 0-59.");
-                return;
-            }
-
-            TaskScheduler taskToSaveOrUpdate;
-        
-            //  FIX: Check for Edit Mode (UPDATE) or Create New 
-            if (isEditingMode && this.selectedTask != null) {
-                // --- UPDATE EXISTING TASK ---
-                taskToSaveOrUpdate = this.selectedTask;
-                
-                // Apply all changes using setters (Assumes setters are in TaskScheduler.java)
-                taskToSaveOrUpdate.setNote(title);
-                taskToSaveOrUpdate.setNoteDetail(noteDetailText);
-                taskToSaveOrUpdate.setStartHour(startHour);
-                taskToSaveOrUpdate.setStartMinute(startMinute);
-                taskToSaveOrUpdate.setDurationHours(durationHours);
-                taskToSaveOrUpdate.setDurationMinutes(durationMinutes);
-                taskToSaveOrUpdate.setDurationSeconds(durationSeconds);
-                taskToSaveOrUpdate.setRecurringDays(new ArrayList<>(selectedDays));
-                
-                // Reset running timer if the schedule was changed
-                taskToSaveOrUpdate.setCurrentStartTime(null);
-                
-                showAlert("Task Updated", title + " has been successfully updated.");
-
-                // Reset editing mode
-                isEditingMode = false;
-                
+            // 2. Conditional Logic: If Scheduling is disabled, keep existing values
+            if (monthField.isDisabled()) {
+                // Keep existing schedule data
+                startHour = selectedTask.getStartHour();
+                startMinute = selectedTask.getStartMinute();
+                durationHours = selectedTask.getDurationHours();
+                durationMinutes = selectedTask.getDurationMinutes();
+                durationSeconds = selectedTask.getDurationSeconds();
+                days = new ArrayList<>(selectedTask.getRecurringDays());
             } else {
-                // --- CREATE NEW TASK ---
-                taskToSaveOrUpdate = new TaskScheduler(
-                    title,
-                    startHour,
-                    startMinute,
-                    durationHours,
-                    durationMinutes,
-                    durationSeconds,
-                    noteDetailText,
-                    new ArrayList<>(selectedDays)
-                );
+                // Validate and parse new schedule data
+                if (monthField.getText().isEmpty() || dayField.getText().isEmpty() || 
+                    hourField.getText().isEmpty() || minuteField.getText().isEmpty()) {
+                    showAlert("Input Error", "Please fill in all time and duration fields.");
+                    return;
+                }
+                
+                startHour = Integer.parseInt(monthField.getText().trim());
+                startMinute = Integer.parseInt(dayField.getText().trim());
+                durationHours = Integer.parseInt(hourField.getText().trim());
+                durationMinutes = Integer.parseInt(minuteField.getText().trim());
+                durationSeconds = (secondsField != null && !secondsField.getText().trim().isEmpty()) 
+                                   ? Integer.parseInt(secondsField.getText().trim()) : 0;
+                days = new ArrayList<>(selectedDays);
 
-                GlobalData.schedules.add(taskToSaveOrUpdate);
-                GlobalData.taskNames.add(title);
-                showAlert("Task Created", title + " has been successfully scheduled.");
+                if (days.isEmpty()) {
+                    showAlert("Input Error", "Please select at least one day.");
+                    return;
+                }
+                
+                if (startHour < 0 || startHour > 23 || startMinute < 0 || startMinute > 59) {
+                    showAlert("Input Error", "Start Hour must be 0-23 and Minute 0-59.");
+                    return;
+                }
             }
-            
-            TaskDatabase.saveTasks(); // Save changes to the database
 
-            // Immediately select the task for dashboard display
-            this.selectedTask = taskToSaveOrUpdate;
-            displayTaskOnDashboard(this.selectedTask);
+            // 3. Final Title Check
+            if (title.isEmpty()) {
+                showAlert("Input Error", "Please enter a title.");
+                return;
+            }
 
-            loadSavedTasks();
-            hideScheduleForm(event);
+         // 4. Save or Update Logic
+            if (isEditingMode && this.selectedTask != null) {
+                // UPDATE EXISTING: Use setters to modify the object directly
+                selectedTask.setNote(title);
+                selectedTask.setNoteDetail(noteDetailText);
+                selectedTask.setStartHour(startHour);
+                selectedTask.setStartMinute(startMinute);
+                selectedTask.setDurationHours(durationHours);
+                selectedTask.setDurationMinutes(durationMinutes);
+                selectedTask.setDurationSeconds(durationSeconds);
+                selectedTask.setRecurringDays(days);
+                
+                showAlert("Success", "Task updated successfully!");
+            } else {
+                // CREATE NEW: Using your specific constructor order
+                // Order: note, startHour, startMinute, durHours, durMins, durSecs, noteDetail, days
+                TaskScheduler newTask = new TaskScheduler(
+                    title, 
+                    startHour, 
+                    startMinute, 
+                    durationHours, 
+                    durationMinutes, 
+                    durationSeconds, 
+                    noteDetailText, 
+                    days
+                );
+                
+                GlobalData.schedules.add(newTask);
+                showAlert("Success", "New task added!");
+            }
+
+            // 5. Cleanup and UI Refresh
+            TaskDatabase.saveTasks();
+            hideScheduleForm(null);
+            updateTaskUI();
+            displayTaskOnDashboard(selectedTask);
 
         } catch (NumberFormatException e) {
-            showAlert("Input Error", "Please ensure all time fields contain valid whole numbers.");
-            System.err.println("NumberFormatException: " + e.getMessage());
-        } catch (Exception e) {
-            showAlert("Error", "An unexpected error occurred during scheduling.");
-            e.printStackTrace();
+            showAlert("Input Error", "Please enter valid numbers for time and duration.");
         }
     }
 

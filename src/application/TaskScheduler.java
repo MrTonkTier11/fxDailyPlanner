@@ -101,4 +101,8 @@ public class TaskScheduler {
                 // and let the controller handle visual status.
             }
         }
+     // Add this inside TaskScheduler.java
+        public TaskScheduler() {
+            // Default constructor for flexibility
+        }
 	}
