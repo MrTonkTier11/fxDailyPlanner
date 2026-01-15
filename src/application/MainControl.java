@@ -78,10 +78,12 @@ public class MainControl {
         buttonOne.getStyleClass().add("icons-bilog");
         buttonOne.setPrefHeight(54.0); 
         buttonOne.setPrefWidth(65.0);
+        buttonOne.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
         Button buttonTwo = new Button(task.getName());
         buttonTwo.getStyleClass().add("icons-bilog");
         buttonTwo.setMaxWidth(Double.MAX_VALUE);
+        buttonTwo.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
         taskMenuOne.getChildren().add(buttonOne);
         taskMenuTwo.getChildren().add(buttonTwo);

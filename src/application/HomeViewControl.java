@@ -202,7 +202,7 @@ public class HomeViewControl implements Initializable {
                         timeLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
                     }
                 } else {
-                    timeLabel.setStyle("-fx-text-fill: green;");
+                    timeLabel.setStyle("-fx-text-fill: black;");
                 }
             }
         }
@@ -457,13 +457,13 @@ public class HomeViewControl implements Initializable {
             TaskScheduler task = GlobalData.schedules.get(i);
             String taskName = task.getNote();
 
-            if (taskName.toLowerCase().contains(lowerCaseQuery) || lowerCaseQuery.isEmpty()) {
+            if (taskName.toLowerCase().startsWith(lowerCaseQuery) || lowerCaseQuery.isEmpty()) {
 
                 HBox taskRow = new HBox(10);
                 taskRow.setAlignment(Pos.CENTER_LEFT);
                 taskRow.setMaxWidth(Double.MAX_VALUE);
                 taskRow.getStyleClass().add("icons-bilog");
-                taskRow.setPrefHeight(60.0);
+                taskRow.setPrefHeight(70.0);
 
                 // Click handler to select task
                 taskRow.setOnMouseClicked(event -> {
@@ -477,6 +477,7 @@ public class HomeViewControl implements Initializable {
 
                 Label nameLabel = new Label(taskName);
                 nameLabel.getStyleClass().add("task-name-label");
+                nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
                 Label timeLabel = new Label();
                 timeLabel.getStyleClass().add("time-status-label");
@@ -517,7 +518,7 @@ public class HomeViewControl implements Initializable {
 
                 // -----------------Option Menu per Task ------------------------------------------------------------------------------------------------------------------------------------------
                 MenuButton optionsMenu = new MenuButton("⋮");
-                optionsMenu.setStyle("-fx-font-size: 20px; -fx-background-color: TRANSPARENT ; -fx-background-radius: 50px;");
+                optionsMenu.setStyle("-fx-font-size: 20px; -fx-background-color: TRANSPARENT ; -fx-background-radius: 50px; -fx-font-weight: bold;");
 
                 //INSIDE OF MENU BUTTON
                 MenuItem prioItem = new MenuItem("Add Priority");
@@ -654,6 +655,7 @@ public class HomeViewControl implements Initializable {
 
         Label noteLabel = new Label(task.getNoteDetail());
         noteLabel.setWrapText(true);
+        noteLabel.setStyle("-fx-font-size: 20px;");
         noteLabel.setPrefWidth(740);
         noteLabel.setPrefHeight(400);
         noteLabel.setLayoutX(20);
@@ -1108,7 +1110,7 @@ public class HomeViewControl implements Initializable {
         }
         if (!detailsText.isEmpty()) {
             Label detailsLabel = new Label(detailsText);
-            detailsLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #555;");
+            detailsLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
             detailsLabel.setWrapText(true);
             detailsLabel.setPadding(new Insets(0, 0, 0, 20)); // indent under note
             container.getChildren().add(detailsLabel);
